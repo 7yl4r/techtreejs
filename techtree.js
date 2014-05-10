@@ -7,6 +7,8 @@ var test_node = {
 // the main techtree module
 techtree = {
     drawTree: function(){
+        console.log('techtree module:\n', techtree);
+        // use to draw the tree
         var width = 960,
             height = 2000;
 
@@ -37,7 +39,7 @@ techtree = {
             .enter().append("g")
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-              .attr("onmouseover",function(d){ return "console.log('"+d.text+"')"; })
+              .attr("onmouseover",function(d){ return "techtree.showTooltip('"+d.text+"',"+d.x+","+d.y+")"; })
 
           node.append("circle")
               .attr("r", 4.5);
@@ -50,5 +52,9 @@ techtree = {
         });
 
         d3.select(self.frameElement).style("height", height + "px");
+    },
+    showTooltip: function(desc, x, y){
+        // shows a tooltip for the given node
+        console.log('tooltip:', desc,' @ (',x,',',y,')');
     }
 };
