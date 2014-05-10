@@ -12,5 +12,5 @@ Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 httpd = SocketServer.TCPServer(("", PORT), Handler)
 
 print "serving at port", PORT
-print 'open your web browser to http://localhost:8000/demo.html to view,\n\tpress ctrl+c to stop.'
+print 'open your web browser to http://localhost:8000/demo/ to view,\n\tpress ctrl+c to stop.'
 httpd.serve_forever()
