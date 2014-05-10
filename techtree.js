@@ -9,8 +9,8 @@ techtree = {
     drawTree: function(){
         console.log('techtree module:\n', techtree);
         // use to draw the tree
-        var width = 960,
-            height = 2000;
+        var width = 700,
+            height = 1458;
 
         var tree = d3.layout.tree()
             .size([height, width - 160]);
