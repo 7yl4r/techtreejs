@@ -1,16 +1,16 @@
 
 treeConfig = {
     svgSrc: '/demo/demo_resources/tree.svg',
-    jsonSrc: '/demo/demo_tree.json'
+    jsonSrc: 'http://7yl4r.github.io/techtreejs/demo/demo_tree.json'
 /*
     openMenu: function( ) {
-        …
+        ï¿½
         this.setMenuStyle( );
     },
     closeMenu: function( ) {
-        …
+        ï¿½
         this.setMenuStyle( );
     },
-    setMenuStyle: function( ) { … }
+    setMenuStyle: function( ) { ï¿½ }
 */
 };
