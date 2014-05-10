@@ -37,6 +37,7 @@ techtree = {
             .enter().append("g")
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+              .attr("onmouseover",function(d){ return "console.log('"+d.text+"')"; })
 
           node.append("circle")
               .attr("r", 4.5);

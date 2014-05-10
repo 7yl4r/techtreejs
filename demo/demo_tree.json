@@ -53,7 +53,7 @@
                         },
                         {
                             "name": "ShortestPaths",
-                            "text": "it's not a line if that is what you are thinking.",
+                            "text": "its not a line if that is what you are thinking.",
                             "size": 5914
                         },
                         {
@@ -104,7 +104,7 @@
         },
         {
             "name": "util",
-            "text": "oops, someone typo'd until",
+            "text": "oops, someone typod until",
             "children": [
                 {
                     "name": "Colors",
@@ -149,7 +149,7 @@
                 },
                 {
                     "name": "control",
-                    "text": "you have none of this, and I won't show them to you.",
+                    "text": "you have none of this, and I wont show them to you.",
                     "children": [
                         {
                             "name": "AnchorControl",
