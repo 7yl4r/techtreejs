@@ -27,12 +27,16 @@ techtree = {
         d3.json(treeConfig.jsonSrc, function(error, json) {
           var nodes = tree.nodes(json),
               links = tree.links(nodes);
+              
+              console.log(links);
 
           var link = techtree.treeSVG.selectAll("path.link")
-              .data(links)
+                .data(links)
             .enter().append("path")
-              .attr("class", "link")
-              .attr("d", diagonal);
+                .attr("src",function(d) { return d.source.name; })
+                .attr("tgt",function(d) { return d.target.name; })
+                .attr("class", "link")
+                .attr("d", diagonal);
 
           var node = techtree.treeSVG.selectAll("g.node")
               .data(nodes)
@@ -59,11 +63,23 @@ techtree = {
     },
     
     selectNode: function(nodename){
+        var DUR = 750;  //duration of transition in ms 
         d3.select('#'+nodename+'_circle').transition()
-            .duration(750)
+            .duration(DUR)
             .style('fill', 'lime')
             .style('stroke', 'green')
             .attr('r',25);
+        
+        // recolor all edges coming from parents
+        d3.selectAll('[tgt='+nodename+']').transition()
+            .duration(DUR)
+            .style('stroke','green');
+            
+        // recolor all edges going to children
+        d3.selectAll('[src='+nodename+']').transition()
+            .duration(DUR)
+            .style('stroke','blue');
+
     },
     showTooltip: function(name, desc, x, y){
         // shows a tooltip for the given node
