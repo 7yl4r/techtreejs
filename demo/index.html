@@ -4,13 +4,37 @@
         <meta charset="UTF-8">
         <title>techtree.js | demo tech tree</title>
 
-        <script src="/techtree.js"></script>
+        <!-- techtree dependencies: -->
+        <script src="http://d3js.org/d3.v3.min.js"></script>
+
+        <!-- import tech tree config options -->
         <script src="/demo/tree_config.js"></script>
+        <!-- import tech tree -->
+        <script src="/techtree.js"></script>
+
 
     </head>
     <body>
 
-    <object type='image/svg+xml' id="demotechtree" data='/demo/demo_resources/tree.svg' onload="techtree.init(this)" style="float:center">Your browser does't support SVG? =(</object>
+        <div id='techTreeDiv'>
+            <style>
+                .node circle {
+                  fill: #fff;
+                  stroke: steelblue;
+                  stroke-width: 1.5px;
+                }
+                .node {
+                  font: 10px sans-serif;
+                }
+                .link {
+                  fill: none;
+                  stroke: #ccc;
+                  stroke-width: 1.5px;
+                }
+            </style>
+            <h1> Demo Tech Tree: </h1>
+            <script src="/demo/demo.js"></script>
+        </div>
     
     </body>
 </html>
