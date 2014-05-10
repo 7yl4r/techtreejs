@@ -45,13 +45,11 @@ techtree = {
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
               .attr("onmouseover",function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+")"; })
               .attr("onmouseout" ,function(d){ return "techtree.unshowTooltip('"+d.name+"')"; })
-              .attr("onclick"    ,function(d){ return "techtree.selectNode('"+d.name+"')"; })
-
+              .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+d.depth+",'"+d.name+"') == true) ? techtree.selectNode('"+d.name+"') : console.log('"+d.name+"','disabled')"; })
           node.append("circle")
                 .attr("id",function(d) { return d.name+"_circle"; })
                 .attr("r", 10)
-                .style("stroke","blue");
-
+                .style("stroke","gray");
           node.append("text")
               .attr("dx", function(d) { return d.children ? -8 : 8; })
               .attr("dy", 3)
@@ -62,8 +60,26 @@ techtree = {
         d3.select(self.frameElement).style("height", height + "px");
     },
     
+    _isEnabled: function(nodeDepth, nodeName){
+        // returns true if node is enabled, else false
+        var previousResearchesCompleted = true;
+        d3.selectAll('[tgt='+nodeName+']')
+            .each( function(d){
+                if( d.enabled == "true" ) {} else {     // "true" must be in quotes here... it's weird, but it works.
+                    previousResearchesCompleted = false;
+                }
+            });
+        
+        if (nodeDepth == 0){
+            return true;
+        } else if( previousResearchesCompleted ){
+            return true;
+        } else {
+            return false;
+        }
+    },
     selectNode: function(nodename){
-        var DUR = 750;  //duration of transition in ms 
+        var DUR = 3000;  //duration of transition in ms 
         d3.select('#'+nodename+'_circle').transition()
             .duration(DUR)
             .style('fill', 'lime')
@@ -72,14 +88,16 @@ techtree = {
         
         // recolor all edges coming from parents
         d3.selectAll('[tgt='+nodename+']').transition()
-            .duration(DUR)
+            .duration(DUR/3)
             .style('stroke','green');
             
-        // recolor all edges going to children
-        d3.selectAll('[src='+nodename+']').transition()
+        // recolor all edges going to children, set as enabled paths
+        var children = d3.selectAll('[src='+nodename+']')
+        children.transition()
             .duration(DUR)
             .style('stroke','blue');
-
+        children.each(function(d){ d.enabled = 'true'});
+        
     },
     showTooltip: function(name, desc, x, y){
         // shows a tooltip for the given node
