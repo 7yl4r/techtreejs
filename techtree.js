@@ -41,9 +41,12 @@ techtree = {
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
               .attr("onmouseover",function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+")"; })
               .attr("onmouseout" ,function(d){ return "techtree.unshowTooltip('"+d.name+"')"; })
+              .attr("onclick"    ,function(d){ return "techtree.selectNode('"+d.name+"')"; })
 
           node.append("circle")
-              .attr("r", 7);
+                .attr("id",function(d) { return d.name+"_circle"; })
+                .attr("r", 10)
+                .style("stroke","blue");
 
           node.append("text")
               .attr("dx", function(d) { return d.children ? -8 : 8; })
@@ -55,13 +58,20 @@ techtree = {
         d3.select(self.frameElement).style("height", height + "px");
     },
     
+    selectNode: function(nodename){
+        d3.select('#'+nodename+'_circle').transition()
+            .duration(750)
+            .style('fill', 'lime')
+            .style('stroke', 'green')
+            .attr('r',25);
+    },
     showTooltip: function(name, desc, x, y){
         // shows a tooltip for the given node
-        X = y;  // yes, x and y are switched here... don't ask me why, they just are.
-        Y = x;
-        W = 500;
-        H = 100;
-        txt_H = H/3;
+        var X = y;  // yes, x and y are switched here... don't ask me why, they just are.
+        var Y = x;
+        var W = 500;
+        var H = 100;
+        var txt_H = H/3;
         console.log('drawing tooltip for:', name,' @ (',X,',',Y,')');
         var box = techtree.treeSVG.append('rect')
                                     .attr('id',name+'_tooltip_box')
@@ -73,7 +83,7 @@ techtree = {
               
         var text = techtree.treeSVG.append('text')
                                     .attr('id',name+'_tooltip_txt')
-                                    .attr("x",X)
+                                    .attr('x',X)
                                     .attr('y',Y+txt_H)
                                     .attr('font-size',txt_H)
                                     .text(desc);
