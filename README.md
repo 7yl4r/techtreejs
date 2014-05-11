@@ -1,7 +1,7 @@
 techtreejs
 ==========
 
-a generalizable, customizable js library for displaying your game's tech tree.
+a generalizable, customizable js library for displaying your game's tech tree. View a web-demo at [7yl4r.github.io/techtreejs](http://7yl4r.github.io/techtreejs/).
 
 ## getting started ##
 * `git clone https://github.com/7yl4r/techtreejs` - clone the repo
