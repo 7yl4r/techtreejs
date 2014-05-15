@@ -101,10 +101,10 @@ techtree = {
     },
     showTooltip: function(name, desc, x, y){
         // shows a tooltip for the given node
-        var X = y;  // yes, x and y are switched here... don't ask me why, they just are.
-        var Y = x;
         var W = 500;
         var H = 100;
+        var X = y-W/2;  // yes, x and y are switched here... don't ask me why, they just are.
+        var Y = x-H/2;
         var txt_H = H/3;
         console.log('drawing tooltip for:', name,' @ (',X,',',Y,')');
         var box = techtree.treeSVG.append('rect')
