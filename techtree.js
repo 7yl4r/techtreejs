@@ -7,10 +7,12 @@ var test_node = {
 // the main techtree module
 techtree = {
     drawTree: function(){
+        // initial draw of the tree
         console.log('techtree module:\n', techtree);
-        // use to draw the tree
         var width = 700,
-            height = 1458;
+            height = 1000;
+
+        var txtSize = 16;
 
         var tree = d3.layout.tree()
             .size([height, width - 160]);
@@ -43,17 +45,16 @@ techtree = {
             .enter().append("g")
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-              .attr("onmouseover",function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+")"; })
-              .attr("onmouseout" ,function(d){ return "techtree.unshowTooltip('"+d.name+"')"; })
-              .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+d.depth+",'"+d.name+"') == true) ? techtree.selectNode('"+d.name+"') : console.log('"+d.name+"','disabled')"; })
+              .attr("onmouseover",function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; })
           node.append("circle")
                 .attr("id",function(d) { return d.name+"_circle"; })
                 .attr("r", 10)
                 .style("stroke","gray");
           node.append("text")
-              .attr("dx", function(d) { return d.children ? -8 : 8; })
+              .attr("dx", 10) // function(d) { return d.children ? -12 : 12; })
               .attr("dy", 3)
-              .attr("text-anchor", function(d) { return d.children ? "end" : "start"; })
+              .attr("text-anchor", "start") // function(d) { return d.children ? "end" : "start"; })
+              .attr('font-size',txtSize)
               .text(function(d) { return d.name; });
         });
 
@@ -78,8 +79,10 @@ techtree = {
             return false;
         }
     },
-    selectNode: function(nodename){
-        var DUR = 3000;  //duration of transition in ms 
+
+    _completeNode: function(nodename){
+        // changes the node to display research completed
+            var DUR = 3000;  //duration of transition in ms 
         d3.select('#'+nodename+'_circle').transition()
             .duration(DUR)
             .style('fill', 'lime')
@@ -97,34 +100,72 @@ techtree = {
             .duration(DUR)
             .style('stroke','blue');
         children.each(function(d){ d.enabled = 'true'});
-        
     },
-    showTooltip: function(name, desc, x, y){
-        // shows a tooltip for the given node
-        var X = y;  // yes, x and y are switched here... don't ask me why, they just are.
-        var Y = x;
-        var W = 500;
-        var H = 100;
-        var txt_H = H/3;
+    
+    selectNode: function(nodename){
+        // this is called when node is selected for research
+        var canAfford = true;  // TODO: send research request to game, get this info back
+        
+        if (canAfford){
+            techtree._completeNode(nodename);
+        } else {
+            console.log("user can't afford "+nodename);
+        }
+    },
+
+    showTooltip: function(name, desc, x, y, depth){
+        // shows a tooltip for the given node if tooltip not already being shown
+        var W = 400;
+        var H = 200;
+        var X = y-W/2;  // yes, x and y are switched here... don't ask me why, they just are.
+        var Y = x-H/2;
+        var title_H = H/6;
+        var txt_H = H/7;
         console.log('drawing tooltip for:', name,' @ (',X,',',Y,')');
+        
+        var enabled = techtree._isEnabled(depth,name);
+        
+        var title = techtree.treeSVG.append('text')
+            .attr('id',name+'_tooltip_title')
+            .attr('x',X)
+            .attr('y',Y+title_H)
+            .attr('font-size',title_H)
+            .attr('fill', 'rgb(0,0,0)')
+            .text(name);
+            
         var box = techtree.treeSVG.append('rect')
-                                    .attr('id',name+'_tooltip_box')
-                                    .attr('x',X)
-                                    .attr('y',Y)
-                                    .attr('width',W)
-                                    .attr('height',H)
-                                    .attr('fill','rgba(200,200,200,0.3)');
+            .attr('id',name+'_tooltip_box')
+            .attr('x',X)
+            .attr('y',Y)
+            .attr('width',W)
+            .attr('height',H)
+            .attr('fill','rgba(150,150,150,0.8)')
+            .attr("onmouseout" ,function(d){ return "techtree.unshowTooltip('"+name+"')"; })
+            .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; })
+;
               
         var text = techtree.treeSVG.append('text')
-                                    .attr('id',name+'_tooltip_txt')
-                                    .attr('x',X)
-                                    .attr('y',Y+txt_H)
-                                    .attr('font-size',txt_H)
-                                    .text(desc);
-
+            .attr('id',name+'_tooltip_txt')
+            .attr('x',X)
+            .attr('y',Y+title_H + txt_H)
+            .attr('font-size',txt_H)
+            .attr('fill', 'rgb(100,100,100)')
+            .text(desc);
+                                    
+        var footTxt = techtree.treeSVG.append('text')
+            .attr('id',name+'_tooltip_footTxt')
+            .attr('x', X)
+            .attr('y', Y+H-txt_H/2)
+            .attr('font-size', txt_H/2)
+            .attr('fill', 'rgb(0,50,200)')
+            .text(enabled ? 'click to research' : 'not yet available');
     },
+    
     unshowTooltip: function(nodename){
+        // removes the given node's tooltip
         d3.select('#'+nodename+'_tooltip_box').remove();
         d3.select('#'+nodename+'_tooltip_txt').remove();
+        d3.select('#'+nodename+'_tooltip_footTxt').remove();
+        d3.select('#'+nodename+'_tooltip_title').remove();
     }
 };
