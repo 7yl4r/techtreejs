@@ -43,9 +43,7 @@ techtree = {
             .enter().append("g")
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-              .attr("onmouseover",function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+")"; })
-              .attr("onmouseout" ,function(d){ return "techtree.unshowTooltip('"+d.name+"')"; })
-              .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+d.depth+",'"+d.name+"') == true) ? techtree.selectNode('"+d.name+"') : console.log('"+d.name+"','disabled')"; })
+              .attr("onmouseover",function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; })
           node.append("circle")
                 .attr("id",function(d) { return d.name+"_circle"; })
                 .attr("r", 10)
@@ -78,6 +76,7 @@ techtree = {
             return false;
         }
     },
+
     selectNode: function(nodename){
         var DUR = 3000;  //duration of transition in ms 
         d3.select('#'+nodename+'_circle').transition()
@@ -99,8 +98,9 @@ techtree = {
         children.each(function(d){ d.enabled = 'true'});
         
     },
-    showTooltip: function(name, desc, x, y){
-        // shows a tooltip for the given node
+
+    showTooltip: function(name, desc, x, y, depth){
+        // shows a tooltip for the given node if tooltip not already being shown
         var W = 500;
         var H = 100;
         var X = y-W/2;  // yes, x and y are switched here... don't ask me why, they just are.
@@ -113,7 +113,10 @@ techtree = {
                                     .attr('y',Y)
                                     .attr('width',W)
                                     .attr('height',H)
-                                    .attr('fill','rgba(200,200,200,0.3)');
+                                    .attr('fill','rgba(200,200,200,0.3)')
+                                    .attr("onmouseout" ,function(d){ return "techtree.unshowTooltip('"+name+"')"; })
+                                    .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; })
+;
               
         var text = techtree.treeSVG.append('text')
                                     .attr('id',name+'_tooltip_txt')
@@ -121,9 +124,10 @@ techtree = {
                                     .attr('y',Y+txt_H)
                                     .attr('font-size',txt_H)
                                     .text(desc);
-
     },
+    
     unshowTooltip: function(nodename){
+        // removes the given node's tooltip
         d3.select('#'+nodename+'_tooltip_box').remove();
         d3.select('#'+nodename+'_tooltip_txt').remove();
     }
