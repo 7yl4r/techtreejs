@@ -6,6 +6,7 @@ var test_node = {
 
 // the main techtree module
 techtree = {
+    _dismissedTooltip: undefined,
     drawTree: function(){
         // initial draw of the tree
         console.log('techtree module:\n', techtree);
@@ -114,63 +115,66 @@ techtree = {
     },
 
     showTooltip: function(name, desc, x, y, depth){
-        // shows a tooltip for the given node if tooltip not already being shown
-        var W = 400;
-        var H = 200;
-        var X = y-W/2;  // yes, x and y are switched here... don't ask me why, they just are.
-        var Y = x-H/2;
-        var title_H = H/6;
-        var txt_H = H/7;
-        console.log('drawing tooltip for:', name,' @ (',X,',',Y,')');
-        
-        // check that tooltip is inside canvas
-        if (X < 0){
-            X = 0;
-        } else if (X+W > treeConfig.treeWidth){
-            X = treeConfig.treeWidth - W;
-        }
-        if (Y < 0){
-            Y = 0
-        } else if (Y+H > treeConfig.treeHeight){
-            Y = treeConfig.treeHeight - H
-        }
-        
-        var enabled = techtree._isEnabled(depth,name);
-        
-        var title = techtree.treeSVG.append('text')
-            .attr('id',name+'_tooltip_title')
-            .attr('x',X)
-            .attr('y',Y+title_H)
-            .attr('font-size',title_H)
-            .attr('fill', 'rgb(0,0,0)')
-            .text(name);
+        // shows a tooltip for the given node, unless the node has been dismissed
+        if (techtree._dismissedTooltip != name){
+            var W = 400;
+            var H = 200;
+            var X = y-W/2;  // yes, x and y are switched here... don't ask me why, they just are.
+            var Y = x-H/2;
+            var title_H = H/6;
+            var txt_H = H/7;
+            var PAD = 10;  // space between edges and text
+            console.log('drawing tooltip for:', name,' @ (',X,',',Y,')');
             
-        var box = techtree.treeSVG.append('rect')
-            .attr('id',name+'_tooltip_box')
-            .attr('x',X)
-            .attr('y',Y)
-            .attr('width',W)
-            .attr('height',H)
-            .attr('fill','rgba(150,150,150,0.8)')
-            .attr("onmouseout" ,function(d){ return "techtree.unshowTooltip('"+name+"')"; })
-            .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; })
-;
-              
-        var text = techtree.treeSVG.append('text')
-            .attr('id',name+'_tooltip_txt')
-            .attr('x',X)
-            .attr('y',Y+title_H + txt_H)
-            .attr('font-size',txt_H)
-            .attr('fill', 'rgb(100,100,100)')
-            .text(desc);
-                                    
-        var footTxt = techtree.treeSVG.append('text')
-            .attr('id',name+'_tooltip_footTxt')
-            .attr('x', X)
-            .attr('y', Y+H-txt_H/2)
-            .attr('font-size', txt_H/2)
-            .attr('fill', 'rgb(0,50,200)')
-            .text(enabled ? 'click to research' : 'not yet available');
+            // check that tooltip is inside canvas
+            if (X < 0){
+                X = 0;
+            } else if (X+W > treeConfig.treeWidth){
+                X = treeConfig.treeWidth - W;
+            }
+            if (Y < 0){
+                Y = 0
+            } else if (Y+H > treeConfig.treeHeight){
+                Y = treeConfig.treeHeight - H
+            }
+            
+            var enabled = techtree._isEnabled(depth,name);
+            
+            var title = techtree.treeSVG.append('text')
+                .attr('id',name+'_tooltip_title')
+                .attr('x',X+PAD)
+                .attr('y',Y+title_H)
+                .attr('font-size',title_H)
+                .attr('fill', 'rgb(0,0,0)')
+                .text(name);
+                
+            var box = techtree.treeSVG.append('rect')
+                .attr('id',name+'_tooltip_box')
+                .attr('x',X)
+                .attr('y',Y)
+                .attr('width',W)
+                .attr('height',H)
+                .attr('fill','rgba(150,150,150,0.8)')
+                .attr("onmouseout" ,function(d){ return "techtree.unshowTooltip('"+name+"')"; })
+                .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; })
+                .attr('oncontextmenu', function(d){ return "techtree.unshowTooltip('"+name+"'); techtree._dismissedTooltip='"+name+"'; return false;"; });
+                  
+            var text = techtree.treeSVG.append('text')
+                .attr('id',name+'_tooltip_txt')
+                .attr('x',X+PAD)
+                .attr('y',Y+title_H + txt_H)
+                .attr('font-size',txt_H)
+                .attr('fill', 'rgb(100,100,100)')
+                .text(desc);
+                                        
+            var footTxt = techtree.treeSVG.append('text')
+                .attr('id',name+'_tooltip_footTxt')
+                .attr('x', X+PAD)
+                .attr('y', Y+H-txt_H/2)
+                .attr('font-size', txt_H/2)
+                .attr('fill', 'rgb(0,50,200)')
+                .text((enabled ? 'click to research' : 'not yet available') + '   |   right click to dismiss');
+        }
     },
     
     unshowTooltip: function(nodename){
