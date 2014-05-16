@@ -9,8 +9,8 @@ techtree = {
     drawTree: function(){
         // initial draw of the tree
         console.log('techtree module:\n', techtree);
-        var width = 800,
-            height = 1000;
+        var width = treeConfig.treeWidth,
+            height = treeConfig.treeHeight;
             
         var txtSize = 16;
 
@@ -122,6 +122,18 @@ techtree = {
         var title_H = H/6;
         var txt_H = H/7;
         console.log('drawing tooltip for:', name,' @ (',X,',',Y,')');
+        
+        // check that tooltip is inside canvas
+        if (X < 0){
+            X = 0;
+        } else if (X+W > treeConfig.treeWidth){
+            X = treeConfig.treeWidth - W;
+        }
+        if (Y < 0){
+            Y = 0
+        } else if (Y+H > treeConfig.treeHeight){
+            Y = treeConfig.treeHeight - H
+        }
         
         var enabled = techtree._isEnabled(depth,name);
         
