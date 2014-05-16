@@ -5,7 +5,7 @@ Sets up a simple http server so you can view demo.html in your browser at `local
 import SimpleHTTPServer
 import SocketServer
 
-PORT = 8000
+PORT = 8080
 
 Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 
