@@ -9,8 +9,8 @@ techtree = {
     drawTree: function(){
         // initial draw of the tree
         console.log('techtree module:\n', techtree);
-        var width = 700,
-            height = 1000;
+        var width = 650,
+            height = 800;
 
         var txtSize = 16;
 
