@@ -9,8 +9,10 @@ techtree = {
     drawTree: function(){
         // initial draw of the tree
         console.log('techtree module:\n', techtree);
-        var width = 960,
-            height = 2000;
+        var width = 800,
+            height = 1000;
+            
+        var txtSize = 16;
 
         var tree = d3.layout.tree()
             .size([height, width - 160]);
@@ -49,9 +51,10 @@ techtree = {
                 .attr("r", 10)
                 .style("stroke","gray");
           node.append("text")
-              .attr("dx", function(d) { return d.children ? -8 : 8; })
+              .attr("dx", 10) // function(d) { return d.children ? -12 : 12; })
               .attr("dy", 3)
-              .attr("text-anchor", function(d) { return d.children ? "end" : "start"; })
+              .attr("text-anchor", "start") // function(d) { return d.children ? "end" : "start"; })
+              .attr('font-size',txtSize)
               .text(function(d) { return d.name; });
         });
 
@@ -120,6 +123,8 @@ techtree = {
         var txt_H = H/7;
         console.log('drawing tooltip for:', name,' @ (',X,',',Y,')');
         
+        var enabled = techtree._isEnabled(depth,name);
+        
         var title = techtree.treeSVG.append('text')
             .attr('id',name+'_tooltip_title')
             .attr('x',X)
@@ -153,7 +158,7 @@ techtree = {
             .attr('y', Y+H-txt_H/2)
             .attr('font-size', txt_H/2)
             .attr('fill', 'rgb(0,50,200)')
-            .text('click to research');
+            .text(enabled ? 'click to research' : 'not yet available');
     },
     
     unshowTooltip: function(nodename){
