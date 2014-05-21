@@ -160,13 +160,47 @@ techtree = {
                 .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; })
                 .attr('oncontextmenu', function(d){ return "techtree.unshowTooltip('"+name+"'); techtree._dismissedTooltip='"+name+"'; return false;"; });
                   
+
+            var txtW = W-2*PAD;
+            var txtID = name+'_tooltip_txt';
             var text = techtree.treeSVG.append('text')
-                .attr('id',name+'_tooltip_txt')
+                .attr('id',txtID)
                 .attr('x',X+PAD)
                 .attr('y',Y+title_H + txt_H)
                 .attr('font-size',txt_H)
-                .attr('fill', 'rgb(100,100,100)')
-                .text(desc);
+                .attr('fill', 'rgb(100,100,100)');
+
+            addTextLines = function(element, txt, width){
+                // adds lines of given "width" with text from "txt" to "element"
+                var words = txt.split(' ');
+                var lstr = words[0];  // line string
+
+                // add the first line with the 1st word
+                line = text.append('tspan')
+                    .attr('dx', 0)
+                    .attr('dy', txt_H)
+                    .text(lstr);
+
+                for (var i = 1; i < words.length; i++) {  // for the rest of the words
+                    lstr+=' '+words[i];
+                    line.text(lstr);
+                    if (line.node().getComputedTextLength() < txtW){ 
+                        continue;
+                    } else { // over line size limit
+                        // remove offending word from last line
+                        var lstr = lstr.substring(0, lstr.lastIndexOf(" "));
+                        line.text(lstr);
+                        // start new line with word
+                        lstr = words[i];
+                        line = text.append('tspan')
+                            .attr('x',X+PAD)
+                            .attr('dy', txt_H)
+                            .text(lstr);
+                    }
+                }
+            };
+
+            addTextLines(text, desc, txtW);
                                         
             var footTxt = techtree.treeSVG.append('text')
                 .attr('id',name+'_tooltip_footTxt')
