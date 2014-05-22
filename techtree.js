@@ -46,7 +46,7 @@ techtree = {
             .enter().append("g")
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-              .attr("onmouseover",function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; })
+              .attr(treeConfig.openTooltip, function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; })
           node.append("circle")
                 .attr("id",function(d) { return d.name+"_circle"; })
                 .attr("r", 10)
@@ -147,7 +147,9 @@ techtree = {
                 .attr('width',W)
                 .attr('height',H)
                 .attr('fill','rgba(150,150,150,0.8)')
-                .attr("onmouseout" ,function(d){ return "techtree.unshowTooltip('"+name+"')"; })
+                .attr("onmouseout" ,(treeConfig.closeTooltipOnMouseOut) 
+                                     ? function(d){ return "techtree.unshowTooltip('"+name+"')" }
+                                     : undefined)
                 .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; });
                   
             var title = techtree.treeSVG.append('text')
