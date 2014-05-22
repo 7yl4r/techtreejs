@@ -147,7 +147,7 @@ techtree = {
                 .attr('width',W)
                 .attr('height',H)
                 .attr('fill','rgba(150,150,150,0.8)')
-                .attr("onmouseout" ,(treeConfig.closeTooltipOnMouseOut) 
+                .attr("onmouseout" ,(treeConfig.closeTooltip == 'onmouseout') 
                                      ? function(d){ return "techtree.unshowTooltip('"+name+"')" }
                                      : undefined)
                 .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; });
@@ -221,15 +221,17 @@ techtree = {
                 .attr('fill', 'rgb(0,50,200)')
                 .text(enabled ? 'click to research' : 'not yet available');
                 
-            var closeButSize = title_H/2;
-            var closeBut = techtree.treeSVG.append('text')
-                .attr('id',name+'_tooltip_closeBut')
-                .attr('x', X+W-PAD-closeButSize)
-                .attr('y', Y+PAD+closeButSize)
-                .attr('font-size', closeButSize)
-                .attr('fill', 'rgb(100,10,10)')
-                .attr('onclick', function(d){ return "techtree.unshowTooltip('"+name+"'); techtree._dismissedTooltip='"+name+"'; return false;"; })
-                .text('X');
+            if (treeConfig.closeTooltip == 'x-button'){ 
+                var closeButSize = title_H/2;
+                var closeBut = techtree.treeSVG.append('text')
+                    .attr('id',name+'_tooltip_closeBut')
+                    .attr('x', X+W-PAD-closeButSize)
+                    .attr('y', Y+PAD+closeButSize)
+                    .attr('font-size', closeButSize)
+                    .attr('fill', 'rgb(100,10,10)')
+                    .attr('onclick', function(d){ return "techtree.unshowTooltip('"+name+"'); techtree._dismissedTooltip='"+name+"'; return false;"; })
+                    .text('X');
+            }
         }
     },
     
@@ -240,6 +242,7 @@ techtree = {
         d3.select('#'+nodename+'_tooltip_footTxt').remove();
         d3.select('#'+nodename+'_tooltip_title').remove();
         d3.select('#'+nodename+'_tooltip_img').remove();
-        d3.select('#'+nodename+'_tooltip_closeBut').remove();        
+        if (treeConfig.closeTooltip == 'x-button')
+            d3.select('#'+nodename+'_tooltip_closeBut').remove();                  
     }
 };
