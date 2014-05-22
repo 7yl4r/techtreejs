@@ -1,39 +1,36 @@
 {
-    "name": "myTechTree",
-    "text": "base of the tree...",
+    "name": "observational_astronomy",
+    "text": "",
     "children": [
         {
-            "name": "analytics",
-            "text": "exploring things with math",
+            "name": "CCD",
+            "text": "Charge-Coupled Device",
             "children": [
                 {
-                    "name": "cluster",
-                    "text": "a group of things",
+                    "name": "radio_telescope_tech_II",
+                    "text": "radio telescope tech II",
                     "children": [
                         {
-                            "name": "AgglomerativeCluster",
-                            "text": "like sedementary rock or whatever",
-                            "size": 3938
-                        },
-                        {
-                            "name": "CommunityStructure",
-                            "text": "who is the boss?",
-                            "size": 3812
-                        },
-                        {
-                            "name": "HierarchicalCluster",
-                            "text": "groups of things in things",
-                            "size": 6714
-                        },
-                        {
-                            "name": "MergeEdge",
-                            "text": "combine sides",
-                            "size": 743
+                            "name": "Very_Long_Baseline_Interferometry",
+                            "text": "improvements in the stability of radio telescope receivers permits telescopes from all over the world (and even in Earth orbit) to be combined. Data received at each antenna is paired with timing information, usually from a local atomic clock, and stored for later analysis. At that later time, the data is correlated with data from other antennas similarly recorded, to produce a single image. Using this method it is possible to synthesise an antenna that is effectively the size of the Earth.",
+                            "size": 3938,
+                            "children":[
+                                {
+                                    "name": "SETI_project",
+                                    "text": "blarg...",
+                                    "size": 94384
+                                },
+                                {
+                                    "name": "radar_composition_detection",
+                                    "text": "mmmmhmm.",
+                                    "size": 2313
+                                }
+                            ]
                         }
                     ]
                 },
                 {
-                    "name": "graph",
+                    "name": "optical_telescope_tech_II",
                     "text": "like a chart but better",
                     "children": [
                         {
@@ -64,7 +61,7 @@
                     ]
                 },
                 {
-                    "name": "optimization",
+                    "name": "infrared_telescope_tech_II",
                     "text": "making things peppier",
                     "children": [
                         {
@@ -73,133 +70,35 @@
                             "size": 7074
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "name": "scale",
-            "text": "bigness",
-            "children": [
-                {
-                    "name": "IScaleMap",
-                    "text": "I scale the map.",
-                    "size": 2105
                 },
                 {
-                    "name": "LogScale",
-                    "text": "sizing scale developed by the International League of Lumberjacks (ILL)",
-                    "size": 3151
-                },
-                {
-                    "name": "RootScale",
-                    "text": "scale that makes you want root beer.",
-                    "size": 1756
-                },
-                {
-                    "name": "TimeScale",
-                    "text": "thinking about this scale is too trippy for a proper description.",
-                    "size": 5833
-                }
-            ]
-        },
-        {
-            "name": "util",
-            "text": "oops, someone typod until",
-            "children": [
-                {
-                    "name": "Colors",
-                    "text": "invented by crayola",
-                    "size": 10001
-                },
-                {
-                    "name": "Geometry",
-                    "text": "shapes and other magic.",
-                    "size": 10993
-                },
-                {
-                    "name": "heap",
-                    "text": "aka pile",
-                    "size": 474
-                },
-                {
-                    "name": "IValueProxy",
-                    "text": "and you should too.",
-                    "size": 874
-                },
-                {
-                    "name": "math",
-                    "text": "avoid at all costs",
+                    "name": "aperture_synthesis",
+                    "text": "making things peppier",
                     "children": [
                         {
-                            "name": "DenseMatrix",
-                            "text": "a matrix which is not very clever.",
-                            "size": 3165
-                        },
-                        {
-                            "name": "IMatrix",
-                            "text": "exactly like the movie.",
-                            "size": 2815
+                            "name": "AspectRatioBanker",
+                            "text": "what we call the gnome who lives in the server room.",
+                            "size": 7074
                         }
                     ]
                 },
                 {
-                    "name": "Maths",
-                    "text": "oh god, there is more than 1?",
-                    "size": 17705
-                },
-                {
-                    "name": "control",
-                    "text": "you have none of this, and I wont show them to you.",
+                    "name": "adaptive_optics",
+                    "text": "",
                     "children": [
                         {
-                            "name": "AnchorControl",
-                            "size": 2138
-                        },
-                        {
-                            "name": "ClickControl",
-                            "size": 3824
-                        },
-                        {
-                            "name": "Control",
-                            "size": 1353
-                        },
-                        {
-                            "name": "ControlList",
-                            "size": 4665
-                        },
-                        {
-                            "name": "DragControl",
-                            "size": 2649
-                        },
-                        {
-                            "name": "ExpandControl",
-                            "size": 2832
-                        },
-                        {
-                            "name": "HoverControl",
-                            "size": 4896
-                        },
-                        {
-                            "name": "IControl",
-                            "size": 763
-                        },
-                        {
-                            "name": "PanZoomControl",
-                            "size": 5222
-                        },
-                        {
-                            "name": "SelectionControl",
-                            "size": 7862
-                        },
-                        {
-                            "name": "TooltipControl",
-                            "size": 8435
+                            "name": "lucky_imaging",
+                            "text": "asdf",
+                            "size": 7074,
+                            "children": [
+                                {
+                                    "name": "advanced_MEMS_mirror_arrays",
+                                    "text": "micro-electrical-mechanical systems",
+                                    "size": 1234
+                                }    
+                            ]
                         }
                     ]
-                },
-                {
-                    "name": "Visualization",
-                    "size": 16540
                 }
             ]
         }
