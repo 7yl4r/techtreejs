@@ -166,7 +166,7 @@ techtree = {
                 imgW = 100;
             var img = techtree.treeSVG.append('image')
                 .attr('id',name+'_tooltip_img')
-                .attr('xlink:href','./demo_tree/'+name+'.png')
+                .attr('xlink:href','http://7yl4r.github.io/techtreejs/demo/demo_tree/'+name+'.png')
                 .attr('x', X+PAD)
                 .attr('y', Y+title_H+PAD)
                 .attr('width', imgW)
