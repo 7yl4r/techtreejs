@@ -15,6 +15,24 @@
 
     </head>
     <body>
+        <div id='techTreeDiv'>
+            <style>
+                .node circle {
+                  fill: #fff;
+                  stroke: steelblue;
+                  stroke-width: 1.5px;
+                }
+                .node {
+                  font: 10px sans-serif;
+                }
+                .link {
+                  fill: none;
+                  stroke: #ccc;
+                  stroke-width: 1.5px;
+                }
+            </style>
+            <script src="/demo/demo.js"></script>
+        </div>
 
         <div id='configuration explorer'>
             <style>
@@ -84,24 +102,6 @@
             <input type="radio" id='onmouseover' name='openTooltip' value='onmouseover' onclick='treeConfig.openTooltip="onmouseover"; redraw()'>
                <label for="onmouseover">onmoouseover</label>
 
-        </div>
-        <div id='techTreeDiv'>
-            <style>
-                .node circle {
-                  fill: #fff;
-                  stroke: steelblue;
-                  stroke-width: 1.5px;
-                }
-                .node {
-                  font: 10px sans-serif;
-                }
-                .link {
-                  fill: none;
-                  stroke: #ccc;
-                  stroke-width: 1.5px;
-                }
-            </style>
-            <script src="/demo/demo.js"></script>
         </div>
     
     </body>
