@@ -139,14 +139,6 @@ techtree = {
             }
             
             var enabled = techtree._isEnabled(depth,name);
-            
-            var title = techtree.treeSVG.append('text')
-                .attr('id',name+'_tooltip_title')
-                .attr('x',X+PAD)
-                .attr('y',Y+title_H)
-                .attr('font-size',title_H)
-                .attr('fill', 'rgb(0,0,0)')
-                .text(name);
                 
             var box = techtree.treeSVG.append('rect')
                 .attr('id',name+'_tooltip_box')
@@ -159,7 +151,14 @@ techtree = {
                 .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; })
                 .attr('oncontextmenu', function(d){ return "techtree.unshowTooltip('"+name+"'); techtree._dismissedTooltip='"+name+"'; return false;"; });
                   
-
+            var title = techtree.treeSVG.append('text')
+                .attr('id',name+'_tooltip_title')
+                .attr('x',X+PAD)
+                .attr('y',Y+title_H)
+                .attr('font-size',title_H)
+                .attr('fill', 'rgb(0,0,0)')
+                .text(name);
+                
             var txtW = W-2*PAD;
             var txtID = name+'_tooltip_txt';
             var text = techtree.treeSVG.append('text')
