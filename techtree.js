@@ -159,17 +159,29 @@ techtree = {
                 .attr('fill', 'rgb(0,0,0)')
                 .text(name);
                 
-            var txtW = W-2*PAD;
+            var imgH = 100,
+                imgW = 100;
+            var img = techtree.treeSVG.append('image')
+                .attr('id',name+'_tooltip_img')
+                .attr('xlink:href','./demo_tree/'+name+'.png')
+                .attr('x', X+PAD)
+                .attr('y', Y+title_H+PAD)
+                .attr('width', imgW)
+                .attr('height', imgH);
+                
             var txtID = name+'_tooltip_txt';
+            var txtX = X+PAD+imgW+PAD;
+            var txtW = W-(txtX-X)-PAD;
             var text = techtree.treeSVG.append('text')
                 .attr('id',txtID)
-                .attr('x',X+PAD)
-                .attr('y',Y+title_H + txt_H)
+                .attr('x',txtX)
+                .attr('y',Y+title_H)
                 .attr('font-size',txt_H)
                 .attr('fill', 'rgb(100,100,100)');
 
-            addTextLines = function(element, txt, width){
+            addTextLines = function(element, txt, width, txt_x){
                 // adds lines of given "width" with text from "txt" to "element"
+                // TODO: fix the "global" vars used in here
                 var words = txt.split(' ');
                 var lstr = words[0];  // line string
 
@@ -191,14 +203,14 @@ techtree = {
                         // start new line with word
                         lstr = words[i];
                         line = text.append('tspan')
-                            .attr('x',X+PAD)
+                            .attr('x', txt_x)
                             .attr('dy', txt_H)
                             .text(lstr);
                     }
                 }
             };
 
-            addTextLines(text, desc, txtW);
+            addTextLines(text, desc, txtW, txtX);
                                         
             var footTxt = techtree.treeSVG.append('text')
                 .attr('id',name+'_tooltip_footTxt')
@@ -216,5 +228,6 @@ techtree = {
         d3.select('#'+nodename+'_tooltip_txt').remove();
         d3.select('#'+nodename+'_tooltip_footTxt').remove();
         d3.select('#'+nodename+'_tooltip_title').remove();
+        d3.select('#'+nodename+'_tooltip_img').remove();
     }
 };
