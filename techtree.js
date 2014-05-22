@@ -14,10 +14,11 @@ techtree = {
         var width = treeConfig.treeWidth,
             height = treeConfig.treeHeight;
             
-         var txtSize = 16;
-
+        var txtSize = 16;
+        var leftMargin = 250;  // TODO: figure this out dynamically
+        
         var tree = d3.layout.tree()
-            .size([height, width - 160]);
+            .size([height, width - leftMargin]);
 
         var diagonal = d3.svg.diagonal()
             .projection(function(d) { return [d.y, d.x]; });
@@ -47,7 +48,7 @@ techtree = {
             .enter().append("g")
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-              .attr("onmouseover",function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; })
+              .attr(treeConfig.openTooltip, function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; })
           node.append("circle")
                 .attr("id",function(d) { return d.name+"_circle"; })
                 .attr("r", 10)
@@ -140,14 +141,6 @@ techtree = {
             }
             
             var enabled = techtree._isEnabled(depth,name);
-            
-            var title = techtree.treeSVG.append('text')
-                .attr('id',name+'_tooltip_title')
-                .attr('x',X+PAD)
-                .attr('y',Y+title_H)
-                .attr('font-size',title_H)
-                .attr('fill', 'rgb(0,0,0)')
-                .text(name);
                 
             var box = techtree.treeSVG.append('rect')
                 .attr('id',name+'_tooltip_box')
@@ -156,17 +149,71 @@ techtree = {
                 .attr('width',W)
                 .attr('height',H)
                 .attr('fill','rgba(150,150,150,0.8)')
-                .attr("onmouseout" ,function(d){ return "techtree.unshowTooltip('"+name+"')"; })
-                .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; })
-                .attr('oncontextmenu', function(d){ return "techtree.unshowTooltip('"+name+"'); techtree._dismissedTooltip='"+name+"'; return false;"; });
+                .attr("onmouseout" ,(treeConfig.closeTooltip == 'onmouseout') 
+                                     ? function(d){ return "techtree.unshowTooltip('"+name+"')" }
+                                     : undefined)
+                .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; });
                   
-            var text = techtree.treeSVG.append('text')
-                .attr('id',name+'_tooltip_txt')
+            var title = techtree.treeSVG.append('text')
+                .attr('id',name+'_tooltip_title')
                 .attr('x',X+PAD)
-                .attr('y',Y+title_H + txt_H)
+                .attr('y',Y+title_H)
+                .attr('font-size',title_H)
+                .attr('fill', 'rgb(0,0,0)')
+                .text(name);
+                
+            var imgH = 100,
+                imgW = 100;
+            var img = techtree.treeSVG.append('image')
+                .attr('id',name+'_tooltip_img')
+                .attr('xlink:href','./demo_tree/'+name+'.png')
+                .attr('x', X+PAD)
+                .attr('y', Y+title_H+PAD)
+                .attr('width', imgW)
+                .attr('height', imgH);
+                
+            var txtID = name+'_tooltip_txt';
+            var txtX = X+PAD+imgW+PAD;
+            var txtW = W-(txtX-X)-PAD;
+            var text = techtree.treeSVG.append('text')
+                .attr('id',txtID)
+                .attr('x',txtX)
+                .attr('y',Y+title_H)
                 .attr('font-size',txt_H)
-                .attr('fill', 'rgb(100,100,100)')
-                .text(desc);
+                .attr('fill', 'rgb(100,100,100)');
+
+            addTextLines = function(element, txt, width, txt_x){
+                // adds lines of given "width" with text from "txt" to "element"
+                // TODO: fix the "global" vars used in here
+                var words = txt.split(' ');
+                var lstr = words[0];  // line string
+
+                // add the first line with the 1st word
+                line = text.append('tspan')
+                    .attr('dx', 0)
+                    .attr('dy', txt_H)
+                    .text(lstr);
+
+                for (var i = 1; i < words.length; i++) {  // for the rest of the words
+                    lstr+=' '+words[i];
+                    line.text(lstr);
+                    if (line.node().getComputedTextLength() < txtW){ 
+                        continue;
+                    } else { // over line size limit
+                        // remove offending word from last line
+                        var lstr = lstr.substring(0, lstr.lastIndexOf(" "));
+                        line.text(lstr);
+                        // start new line with word
+                        lstr = words[i];
+                        line = text.append('tspan')
+                            .attr('x', txt_x)
+                            .attr('dy', txt_H)
+                            .text(lstr);
+                    }
+                }
+            };
+
+            addTextLines(text, desc, txtW, txtX);
                                         
             var footTxt = techtree.treeSVG.append('text')
                 .attr('id',name+'_tooltip_footTxt')
@@ -174,7 +221,19 @@ techtree = {
                 .attr('y', Y+H-txt_H/2)
                 .attr('font-size', txt_H/2)
                 .attr('fill', 'rgb(0,50,200)')
-                .text((enabled ? 'click to research' : 'not yet available') + '   |   right click to dismiss');
+                .text(enabled ? 'click to research' : 'not yet available');
+                
+            if (treeConfig.closeTooltip == 'x-button'){ 
+                var closeButSize = title_H/2;
+                var closeBut = techtree.treeSVG.append('text')
+                    .attr('id',name+'_tooltip_closeBut')
+                    .attr('x', X+W-PAD-closeButSize)
+                    .attr('y', Y+PAD+closeButSize)
+                    .attr('font-size', closeButSize)
+                    .attr('fill', 'rgb(100,10,10)')
+                    .attr('onclick', function(d){ return "techtree.unshowTooltip('"+name+"'); techtree._dismissedTooltip='"+name+"'; return false;"; })
+                    .text('X');
+            }
         }
     },
     
@@ -184,5 +243,8 @@ techtree = {
         d3.select('#'+nodename+'_tooltip_txt').remove();
         d3.select('#'+nodename+'_tooltip_footTxt').remove();
         d3.select('#'+nodename+'_tooltip_title').remove();
+        d3.select('#'+nodename+'_tooltip_img').remove();
+        if (treeConfig.closeTooltip == 'x-button')
+            d3.select('#'+nodename+'_tooltip_closeBut').remove();                  
     }
 };
