@@ -14,9 +14,10 @@ techtree = {
             height = treeConfig.treeHeight;
             
         var txtSize = 16;
-
+        var leftMargin = 250;  // TODO: figure this out dynamically
+        
         var tree = d3.layout.tree()
-            .size([height, width - 160]);
+            .size([height, width - leftMargin]);
 
         var diagonal = d3.svg.diagonal()
             .projection(function(d) { return [d.y, d.x]; });
