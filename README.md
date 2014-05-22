@@ -9,7 +9,7 @@ a generalizable, customizable js library for displaying your game's tech tree. V
 
 ### Test Out the Library on Your Local Machine ###
 * `python serve_demo.py` - start up the demo server
-* open your browser to http://localhost:8000/demo.html
+* open your browser to http://localhost:8080/demo.html
 
 ### Using techtree.js on your game ###
 It is recommended that you modify the files in the /demo/ to suit your needs. Customization of the tree can take place through:
