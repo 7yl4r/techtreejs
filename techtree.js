@@ -147,8 +147,8 @@ techtree = {
             var H = 200;
             var X = y-W/2;  // yes, x and y are switched here... don't ask me why, they just are.
             var Y = x-H/2;
-            var title_H = H/6;
-            var txt_H = H/7;
+            var title_H = H/8;
+            var txt_H = H/10;
             var PAD = 10;  // space between edges and text
             console.log('drawing tooltip for:', name,' @ (',X,',',Y,')');
             
@@ -183,7 +183,7 @@ techtree = {
                 .attr('x',X+PAD)
                 .attr('y',Y+title_H)
                 .attr('font-size',title_H)
-                .attr('fill', 'rgb(0,0,0)')
+                .attr('fill', 'rgb(80,80,80)')
                 .text(name);
                 
             var imgH = 100,
@@ -204,7 +204,7 @@ techtree = {
                 .attr('x',txtX)
                 .attr('y',Y+title_H)
                 .attr('font-size',txt_H)
-                .attr('fill', 'rgb(100,100,100)');
+                .attr('fill', 'rgb(40,40,40)');
 
             addTextLines = function(element, txt, width, txt_x){
                 // adds lines of given "width" with text from "txt" to "element"
