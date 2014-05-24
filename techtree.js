@@ -45,10 +45,23 @@ techtree = {
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
               .attr(treeConfig.openTooltip, function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; })
-          node.append("circle")
+ /*         node.append("rect")
                 .attr("id",function(d) { return d.name+"_circle"; })
                 .attr("r", 10)
                 .style("stroke","gray");
+*/
+          var NODE_SIZE = treeConfig.nodeSize;
+          node.append("rect")
+                .attr("id",function(d) { return d.name+"_circle"; })
+                .attr("rx", NODE_SIZE/4)
+                .attr("ry", NODE_SIZE/4)
+                .attr("y", -NODE_SIZE/2)
+                .attr("x", -NODE_SIZE/2)
+                .attr("width", NODE_SIZE)
+                .attr("height", NODE_SIZE)
+                .style("stroke","gray")
+                .style("fill", "white");
+
           node.append("text")
               .attr("dx", 10) // function(d) { return d.children ? -12 : 12; })
               .attr("dy", 3)

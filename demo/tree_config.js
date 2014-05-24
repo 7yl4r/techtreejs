@@ -8,6 +8,7 @@ treeConfig = {
     closeTooltip: 'x-button',  // x-button || onmouseout
     openTooltip: 'onclick',  // onclick, onmouseover, or any svg attr
 	// TODO: add toggle buttons for the following 
-    showNodeNames: false  // boolean
+    showNodeNames: false,  // boolean
+    nodeSize: 70  // [px]
 };
 
