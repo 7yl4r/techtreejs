@@ -1,6 +1,4 @@
 
-// TODO: show text on nodes as option, use pictures as patterns as option.
-
 // the main techtree module
 techtree = {
     _dismissedTooltip: undefined,
@@ -39,6 +37,7 @@ techtree = {
                 .attr("class", "link")
                 .attr("d", diagonal);
 
+
           var node = techtree.treeSVG.selectAll("g.node")
               .data(nodes)
             .enter().append("g")
@@ -50,7 +49,22 @@ techtree = {
                 .attr("r", 10)
                 .style("stroke","gray");
 */
+
           var NODE_SIZE = treeConfig.nodeSize;
+         node.append('svg:pattern')
+         .attr('id', function(d){return d.name+'_img'})  
+         .attr('patternUnits', 'userSpaceOnUse')
+         .attr('width', NODE_SIZE)
+         .attr('height', NODE_SIZE)
+         .attr('x',NODE_SIZE/2)
+         .attr('y',NODE_SIZE/2)
+         .append('svg:image')
+           .attr('xlink:href', function(d){return './demo_tree/'+d.name+'.png'})
+           .attr('x', 0)
+           .attr('y', 0)
+           .attr('width', NODE_SIZE)
+           .attr('height', NODE_SIZE);
+
           node.append("rect")
                 .attr("id",function(d) { return d.name+"_circle"; })
                 .attr("rx", NODE_SIZE/4)
@@ -60,7 +74,8 @@ techtree = {
                 .attr("width", NODE_SIZE)
                 .attr("height", NODE_SIZE)
                 .style("stroke","gray")
-                .style("fill", "white");
+                .style("fill", function(d) {return "url(#"+d.name+'_img)' });
+               // .style("fill", "white");
 
           node.append("text")
               .attr("dx", 10) // function(d) { return d.children ? -12 : 12; })
