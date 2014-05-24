@@ -1,8 +1,5 @@
 
-var test_node = {
-  parent: 0,
-  label: 'test'
-};
+// TODO: show text on nodes as option, use pictures as patterns as option.
 
 // the main techtree module
 techtree = {
@@ -57,7 +54,7 @@ techtree = {
               .attr("dy", 3)
               .attr("text-anchor", "start") // function(d) { return d.children ? "end" : "start"; })
               .attr('font-size',txtSize)
-              .text(function(d) { return d.name; });
+              .text(treeConfig.showNodeNames ? (function(d) { return d.name; }) : undefined);
         });
 
         d3.select(self.frameElement).style("height", height + "px");
