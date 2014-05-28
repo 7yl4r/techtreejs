@@ -10,6 +10,7 @@ techtree = {
             
         var txtSize = 16;
         var leftMargin = 250;  // TODO: figure this out dynamically
+        var NODE_SIZE = treeConfig.nodeSize;
         
         var tree = d3.layout.tree()
             .size([height, width - leftMargin]);
@@ -44,13 +45,13 @@ techtree = {
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
               .attr(treeConfig.openTooltip, function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; })
- /*         node.append("rect")
+ /*         node.append("circle")
                 .attr("id",function(d) { return d.name+"_circle"; })
                 .attr("r", 10)
                 .style("stroke","gray");
 */
 
-          var NODE_SIZE = treeConfig.nodeSize;
+         // add the pattern for each node picture
          node.append('svg:pattern')
          .attr('id', function(d){return d.name+'_img'})  
          .attr('patternUnits', 'userSpaceOnUse')
@@ -65,6 +66,7 @@ techtree = {
            .attr('width', NODE_SIZE)
            .attr('height', NODE_SIZE);
 
+          // add the node rect using image patterns
           node.append("rect")
                 .attr("id",function(d) { return d.name+"_circle"; })
                 .attr("rx", NODE_SIZE/4)
@@ -75,7 +77,6 @@ techtree = {
                 .attr("height", NODE_SIZE)
                 .style("stroke","gray")
                 .style("fill", function(d) {return "url(#"+d.name+'_img)' });
-               // .style("fill", "white");
 
           node.append("text")
               .attr("dx", 10) // function(d) { return d.children ? -12 : 12; })
