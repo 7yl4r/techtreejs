@@ -5,6 +5,13 @@ treeConfig = {
     treeWidth: 650,
     treeHeight: 600,
     
-    closeTooltip: 'x-button',  // x-button || onmouseout
-    openTooltip: 'onclick'  // onclick, onmouseover, or any svg attr
+    closeTooltip: 'onmouseout',  // x-button || onmouseout
+    openTooltip: 'onclick',  // onclick, onmouseover, or any svg attr
+    showNodeNames: false,  // boolean
+    showImages: true,
+	// TODO: add toggle buttons for the following 
+    nodeSize: 70  // [px]
+
 };
+
+>>>>>>> cc55f2f1a59f5622ac24754b8940de21f420dc81

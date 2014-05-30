@@ -1,9 +1,4 @@
 
-var test_node = {
-  parent: 0,
-  label: 'test'
-};
-
 // the main techtree module
 techtree = {
     _dismissedTooltip: undefined,
@@ -16,6 +11,7 @@ techtree = {
             
         var txtSize = 16;
         var leftMargin = 250;  // TODO: figure this out dynamically
+        var NODE_SIZE = treeConfig.nodeSize;
         
         var tree = d3.layout.tree()
             .size([height, width - leftMargin]);
@@ -43,22 +39,65 @@ techtree = {
                 .attr("class", "link")
                 .attr("d", diagonal);
 
+
           var node = techtree.treeSVG.selectAll("g.node")
               .data(nodes)
             .enter().append("g")
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
               .attr(treeConfig.openTooltip, function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; })
-          node.append("circle")
+ /*         node.append("circle")
                 .attr("id",function(d) { return d.name+"_circle"; })
                 .attr("r", 10)
                 .style("stroke","gray");
+*/
+
+			if (treeConfig.showImages){
+		      // add the pattern for each node picture
+		      node.append('svg:pattern')
+		      .attr('id', function(d){return d.name+'_img'})  
+		      .attr('patternUnits', 'userSpaceOnUse')
+		      .attr('width', NODE_SIZE)
+		      .attr('height', NODE_SIZE)
+		      .attr('x',NODE_SIZE/2)
+		      .attr('y',NODE_SIZE/2)
+		      .append('svg:image')
+		        .attr('xlink:href', function(d){return './demo_tree/'+d.name+'.png'})
+		        .attr('x', 0)
+		        .attr('y', 0)
+		        .attr('width', NODE_SIZE)
+		        .attr('height', NODE_SIZE);
+
+		       // add the node rect using image patterns
+		       node.append("rect")
+		             .attr("id",function(d) { return d.name+"_circle"; })
+		             .attr("rx", NODE_SIZE/4)
+		             .attr("ry", NODE_SIZE/4)
+		             .attr("y", -NODE_SIZE/2)
+		             .attr("x", -NODE_SIZE/2)
+		             .attr("width", NODE_SIZE)
+		             .attr("height", NODE_SIZE)
+		             .style("stroke","gray")
+		             .style("fill", function(d) {return "url(#"+d.name+'_img)' });
+			} else {
+		       node.append("rect")
+		             .attr("id",function(d) { return d.name+"_circle"; })
+		             .attr("rx", NODE_SIZE/4)
+		             .attr("ry", NODE_SIZE/4)
+		             .attr("y", -NODE_SIZE/2)
+		             .attr("x", -NODE_SIZE/2)
+		             .attr("width", NODE_SIZE)
+		             .attr("height", NODE_SIZE)
+		             .style("stroke","gray")
+		             .style("fill", "blue");
+			}
+
           node.append("text")
               .attr("dx", 10) // function(d) { return d.children ? -12 : 12; })
               .attr("dy", 3)
               .attr("text-anchor", "start") // function(d) { return d.children ? "end" : "start"; })
               .attr('font-size',txtSize)
-              .text(function(d) { return d.name; });
+              .text(treeConfig.showNodeNames ? (function(d) { return d.name; }) : undefined);
         });
 
         d3.select(self.frameElement).style("height", height + "px");
@@ -85,13 +124,18 @@ techtree = {
 
     _completeNode: function(nodename){
         // changes the node to display research completed
-            var DUR = 3000;  //duration of transition in ms 
-        d3.select('#'+nodename+'_circle').transition()
-            .duration(DUR)
-            .style('fill', 'lime')
-            .style('stroke', 'green')
-            .attr('r',25);
-        
+        var DUR = 3000;  //duration of transition in ms 
+
+        if (treeConfig.showImages){
+		     d3.select('#'+nodename+'_circle').transition()
+		         .duration(DUR)
+		         .style('stroke', 'green')
+        } else {
+             d3.select('#'+nodename+'_circle').transition()
+		         .duration(DUR)
+		         .style('fill', 'lime')
+		         .style('stroke', 'green')
+        }
         // recolor all edges coming from parents
         d3.selectAll('[tgt='+nodename+']').transition()
             .duration(DUR/3)
@@ -123,8 +167,8 @@ techtree = {
             var H = 200;
             var X = y-W/2;  // yes, x and y are switched here... don't ask me why, they just are.
             var Y = x-H/2;
-            var title_H = H/6;
-            var txt_H = H/7;
+            var title_H = H/8;
+            var txt_H = H/10;
             var PAD = 10;  // space between edges and text
             console.log('drawing tooltip for:', name,' @ (',X,',',Y,')');
             
@@ -159,7 +203,7 @@ techtree = {
                 .attr('x',X+PAD)
                 .attr('y',Y+title_H)
                 .attr('font-size',title_H)
-                .attr('fill', 'rgb(0,0,0)')
+                .attr('fill', 'rgb(80,80,80)')
                 .text(name);
                 
             var imgH = 100,
@@ -180,7 +224,7 @@ techtree = {
                 .attr('x',txtX)
                 .attr('y',Y+title_H)
                 .attr('font-size',txt_H)
-                .attr('fill', 'rgb(100,100,100)');
+                .attr('fill', 'rgb(40,40,40)');
 
             addTextLines = function(element, txt, width, txt_x){
                 // adds lines of given "width" with text from "txt" to "element"
