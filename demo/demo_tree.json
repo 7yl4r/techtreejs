@@ -34,29 +34,9 @@
                     "text": "like a chart but better",
                     "children": [
                         {
-                            "name": "BetweennessCentrality",
-                            "text": "middlness-ocity",
+                            "name": "optical_telescope_tech_III",
+                            "text": "biggerer and coolerer",
                             "size": 3534
-                        },
-                        {
-                            "name": "LinkDistance",
-                            "text": "time since last played zelda",
-                            "size": 5731
-                        },
-                        {
-                            "name": "MaxFlowMinCut",
-                            "text": "you know exactly what this is.",
-                            "size": 7840
-                        },
-                        {
-                            "name": "ShortestPaths",
-                            "text": "its not a line if that is what you are thinking.",
-                            "size": 5914
-                        },
-                        {
-                            "name": "SpanningTree",
-                            "text": "a fallen tree which bridges a river or canyon.",
-                            "size": 3416
                         }
                     ]
                 },
@@ -65,7 +45,7 @@
                     "text": "making things peppier",
                     "children": [
                         {
-                            "name": "AspectRatioBanker",
+                            "name": "infrared_telescope_tech_III",
                             "text": "what we call the gnome who lives in the server room.",
                             "size": 7074
                         }
@@ -73,14 +53,7 @@
                 },
                 {
                     "name": "aperture_synthesis",
-                    "text": "making things peppier",
-                    "children": [
-                        {
-                            "name": "AspectRatioBanker",
-                            "text": "what we call the gnome who lives in the server room.",
-                            "size": 7074
-                        }
-                    ]
+                    "text": "making things peppier"
                 },
                 {
                     "name": "adaptive_optics",
