@@ -12,28 +12,8 @@
         <!-- import tech tree -->
         <script src="/techtree.js"></script>
 
-
     </head>
     <body>
-        <div id='techTreeDiv'>
-            <style>
-                .node circle {
-                  fill: #fff;
-                  stroke: steelblue;
-                  stroke-width: 1.5px;
-                }
-                .node {
-                  font: 10px sans-serif;
-                }
-                .link {
-                  fill: none;
-                  stroke: #ccc;
-                  stroke-width: 1.5px;
-                }
-            </style>
-            <script src="/demo/demo.js"></script>
-        </div>
-
         <div id='configuration explorer'>
         
             <link href="/demo/radioButtons.css" rel="stylesheet" type="text/css" />
@@ -57,7 +37,39 @@
                <label for="onclick">onclick</label>
             <input type="radio" id='onmouseover' name='openTooltip' value='onmouseover' onclick='treeConfig.openTooltip="onmouseover"; redraw()'>
                <label for="onmouseover">onmoouseover</label>
+				<br>
+				<br>
+				showNodeNames
+	         <input type="radio" id="showNodeNames_true" name="showNodeNames" onclick='treeConfig.showNodeNames=true; redraw()'>
+               <label for="showNodeNames_true">true</label>
+	         <input type="radio" id="showNodeNames_false" name="showNodeNames" onclick='treeConfig.showNodeNames=false; redraw()'>
+               <label for="showNodeNames_false">false</label>
+				<br>
+				<br>
+				showImages
+	         <input type="radio" id="showImages_true" name="showImages" onclick='treeConfig.showImages=true; redraw()'>
+               <label for="showImages_true">true</label>
+	         <input type="radio" id="showImages_false" name="showImages" onclick='treeConfig.showImages=false; redraw()'>
+               <label for="showImages_false">false</label>
+        </div>
 
+        <div id='techTreeDiv'>
+            <style>
+                .node circle {
+                  fill: #fff;
+                  stroke: steelblue;
+                  stroke-width: 1.5px;
+                }
+                .node {
+                  font: 10px sans-serif;
+                }
+                .link {
+                  fill: none;
+                  stroke: #ccc;
+                  stroke-width: 1.5px;
+                }
+            </style>
+            <script src="/demo/demo.js"></script>
         </div>
     
     </body>

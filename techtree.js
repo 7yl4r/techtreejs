@@ -51,32 +51,45 @@ techtree = {
                 .style("stroke","gray");
 */
 
-         // add the pattern for each node picture
-         node.append('svg:pattern')
-         .attr('id', function(d){return d.name+'_img'})  
-         .attr('patternUnits', 'userSpaceOnUse')
-         .attr('width', NODE_SIZE)
-         .attr('height', NODE_SIZE)
-         .attr('x',NODE_SIZE/2)
-         .attr('y',NODE_SIZE/2)
-         .append('svg:image')
-           .attr('xlink:href', function(d){return './demo_tree/'+d.name+'.png'})
-           .attr('x', 0)
-           .attr('y', 0)
-           .attr('width', NODE_SIZE)
-           .attr('height', NODE_SIZE);
+			if (treeConfig.showImages){
+		      // add the pattern for each node picture
+		      node.append('svg:pattern')
+		      .attr('id', function(d){return d.name+'_img'})  
+		      .attr('patternUnits', 'userSpaceOnUse')
+		      .attr('width', NODE_SIZE)
+		      .attr('height', NODE_SIZE)
+		      .attr('x',NODE_SIZE/2)
+		      .attr('y',NODE_SIZE/2)
+		      .append('svg:image')
+		        .attr('xlink:href', function(d){return './demo_tree/'+d.name+'.png'})
+		        .attr('x', 0)
+		        .attr('y', 0)
+		        .attr('width', NODE_SIZE)
+		        .attr('height', NODE_SIZE);
 
-          // add the node rect using image patterns
-          node.append("rect")
-                .attr("id",function(d) { return d.name+"_circle"; })
-                .attr("rx", NODE_SIZE/4)
-                .attr("ry", NODE_SIZE/4)
-                .attr("y", -NODE_SIZE/2)
-                .attr("x", -NODE_SIZE/2)
-                .attr("width", NODE_SIZE)
-                .attr("height", NODE_SIZE)
-                .style("stroke","gray")
-                .style("fill", function(d) {return "url(#"+d.name+'_img)' });
+		       // add the node rect using image patterns
+		       node.append("rect")
+		             .attr("id",function(d) { return d.name+"_circle"; })
+		             .attr("rx", NODE_SIZE/4)
+		             .attr("ry", NODE_SIZE/4)
+		             .attr("y", -NODE_SIZE/2)
+		             .attr("x", -NODE_SIZE/2)
+		             .attr("width", NODE_SIZE)
+		             .attr("height", NODE_SIZE)
+		             .style("stroke","gray")
+		             .style("fill", function(d) {return "url(#"+d.name+'_img)' });
+			} else {
+		       node.append("rect")
+		             .attr("id",function(d) { return d.name+"_circle"; })
+		             .attr("rx", NODE_SIZE/4)
+		             .attr("ry", NODE_SIZE/4)
+		             .attr("y", -NODE_SIZE/2)
+		             .attr("x", -NODE_SIZE/2)
+		             .attr("width", NODE_SIZE)
+		             .attr("height", NODE_SIZE)
+		             .style("stroke","gray")
+		             .style("fill", "blue");
+			}
 
           node.append("text")
               .attr("dx", 10) // function(d) { return d.children ? -12 : 12; })
@@ -110,13 +123,18 @@ techtree = {
 
     _completeNode: function(nodename){
         // changes the node to display research completed
-            var DUR = 3000;  //duration of transition in ms 
-        d3.select('#'+nodename+'_circle').transition()
-            .duration(DUR)
-            .style('fill', 'lime')
-            .style('stroke', 'green')
-            .attr('r',25);
-        
+        var DUR = 3000;  //duration of transition in ms 
+
+        if (treeConfig.showImages){
+		     d3.select('#'+nodename+'_circle').transition()
+		         .duration(DUR)
+		         .style('stroke', 'green')
+        } else {
+             d3.select('#'+nodename+'_circle').transition()
+		         .duration(DUR)
+		         .style('fill', 'lime')
+		         .style('stroke', 'green')
+        }
         // recolor all edges coming from parents
         d3.selectAll('[tgt='+nodename+']').transition()
             .duration(DUR/3)
