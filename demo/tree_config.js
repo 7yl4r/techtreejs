@@ -14,4 +14,3 @@ treeConfig = {
 
 };
 
->>>>>>> cc55f2f1a59f5622ac24754b8940de21f420dc81
