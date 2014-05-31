@@ -11,7 +11,6 @@ techtree = {
             
         var txtSize = 16;
         var leftMargin = 250;  // TODO: figure this out dynamically
-        var NODE_SIZE = treeConfig.nodeSize;
         
         var tree = d3.layout.tree()
             .size([height, width - leftMargin]);
@@ -45,52 +44,10 @@ techtree = {
             .enter().append("g")
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-              .attr(treeConfig.openTooltip, function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; })
- /*         node.append("circle")
-                .attr("id",function(d) { return d.name+"_circle"; })
-                .attr("r", 10)
-                .style("stroke","gray");
-*/
+              .attr(treeConfig.openTooltip, function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; });
 
-			if (treeConfig.showImages){
-		      // add the pattern for each node picture
-		      node.append('svg:pattern')
-		      .attr('id', function(d){return d.name+'_img'})  
-		      .attr('patternUnits', 'userSpaceOnUse')
-		      .attr('width', NODE_SIZE)
-		      .attr('height', NODE_SIZE)
-		      .attr('x',NODE_SIZE/2)
-		      .attr('y',NODE_SIZE/2)
-		      .append('svg:image')
-		        .attr('xlink:href', function(d){return './demo_tree/'+d.name+'.png'})
-		        .attr('x', 0)
-		        .attr('y', 0)
-		        .attr('width', NODE_SIZE)
-		        .attr('height', NODE_SIZE);
+          techtree._drawNodeBoxes(node);
 
-		       // add the node rect using image patterns
-		       node.append("rect")
-		             .attr("id",function(d) { return d.name+"_circle"; })
-		             .attr("rx", NODE_SIZE/4)
-		             .attr("ry", NODE_SIZE/4)
-		             .attr("y", -NODE_SIZE/2)
-		             .attr("x", -NODE_SIZE/2)
-		             .attr("width", NODE_SIZE)
-		             .attr("height", NODE_SIZE)
-		             .style("stroke","gray")
-		             .style("fill", function(d) {return "url(#"+d.name+'_img)' });
-			} else {
-		       node.append("rect")
-		             .attr("id",function(d) { return d.name+"_circle"; })
-		             .attr("rx", NODE_SIZE/4)
-		             .attr("ry", NODE_SIZE/4)
-		             .attr("y", -NODE_SIZE/2)
-		             .attr("x", -NODE_SIZE/2)
-		             .attr("width", NODE_SIZE)
-		             .attr("height", NODE_SIZE)
-		             .style("stroke","gray")
-		             .style("fill", "blue");
-			}
 
           node.append("text")
               .attr("dx", 10) // function(d) { return d.children ? -12 : 12; })
@@ -121,6 +78,63 @@ techtree = {
             return false;
         }
     },
+    
+    _drawNodeBoxes: function(node){
+        var NODE_SIZE = treeConfig.nodeSize;
+        
+        if (treeConfig.showImages){
+          // add the pattern for each node picture
+          node.append('svg:pattern')
+          .attr('id', function(d){return d.name+'_img'})  
+          .attr('patternUnits', 'userSpaceOnUse')
+          .attr('width', NODE_SIZE)
+          .attr('height', NODE_SIZE)
+          .attr('x',NODE_SIZE/2)
+          .attr('y',NODE_SIZE/2)
+          .append('svg:image')
+            .attr('xlink:href', function(d){return './demo_tree/'+d.name+'.png'})
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', NODE_SIZE)
+            .attr('height', NODE_SIZE);
+
+           // add the node rect using image patterns
+           node.append("rect")
+                 .attr("id",function(d) { return d.name+"_circle"; })
+                 .attr("rx", NODE_SIZE/4)
+                 .attr("ry", NODE_SIZE/4)
+                 .attr("y", -NODE_SIZE/2)
+                 .attr("x", -NODE_SIZE/2)
+                 .attr("width", NODE_SIZE)
+                 .attr("height", NODE_SIZE)
+                 .style("stroke","gray")
+                 .style("fill", function(d) {return "url(#"+d.name+'_img)' });
+        } else {
+           node.append("rect")
+                 .attr("id",function(d) { return d.name+"_circle"; })
+                 .attr("rx", NODE_SIZE/4)
+                 .attr("ry", NODE_SIZE/4)
+                 .attr("y", -NODE_SIZE/2)
+                 .attr("x", -NODE_SIZE/2)
+                 .attr("width", NODE_SIZE)
+                 .attr("height", NODE_SIZE)
+                 .style("stroke","gray")
+                 .style("fill", "blue");
+        }
+        
+        if (treeConfig.futureTechFog == 'aesthetic'){
+           node.append("rect")
+                 .attr("id",function(d) { return d.name+"_fog"; })
+                 .attr("rx", NODE_SIZE/4)
+                 .attr("ry", NODE_SIZE/4)
+                 .attr("y", -NODE_SIZE/2)
+                 .attr("x", -NODE_SIZE/2)
+                 .attr("width", NODE_SIZE)
+                 .attr("height", NODE_SIZE)
+                 .style("stroke","white")
+                 .style("fill", function(d){ return techtree._isEnabled(d.depth,d.name) ? "rgba(0,0,0,0)" : "rgba(200,200,200,0.8)"});
+        }
+    },
 
     _completeNode: function(nodename){
         // changes the node to display research completed
@@ -147,6 +161,9 @@ techtree = {
             .duration(DUR)
             .style('stroke','blue');
         children.each(function(d){ d.enabled = 'true'});
+        
+        // remove the fog over children
+        children.each(function(d){ d3.select('#'+d.target.name+'_fog').remove() });
     },
     
     selectNode: function(nodename){
@@ -163,12 +180,12 @@ techtree = {
     showTooltip: function(name, desc, x, y, depth){
         // shows a tooltip for the given node, unless the node has been dismissed
         if (techtree._dismissedTooltip != name){
-            var W = 400;
-            var H = 200;
+            var W = treeConfig.tooltipW;
+            var H = treeConfig.tooltipH;
             var X = y-W/2;  // yes, x and y are switched here... don't ask me why, they just are.
             var Y = x-H/2;
             var title_H = H/8;
-            var txt_H = H/10;
+            var txt_H = H/treeConfig.tooltipTextLineCount;
             var PAD = 10;  // space between edges and text
             console.log('drawing tooltip for:', name,' @ (',X,',',Y,')');
             
