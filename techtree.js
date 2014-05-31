@@ -121,7 +121,7 @@ techtree = {
                  .style("fill", "blue");
         }
         
-        if (treeConfig.fogFutureTech == 'aesthetic'){
+        if (treeConfig.futureTechFog == 'aesthetic'){
            node.append("rect")
                  .attr("id",function(d) { return d.name+"_fog"; })
                  .attr("rx", NODE_SIZE/4)
