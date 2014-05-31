@@ -10,7 +10,6 @@ techtree = {
             
         var txtSize = 16;
         var leftMargin = 250;  // TODO: figure this out dynamically
-        var NODE_SIZE = treeConfig.nodeSize;
         
         var tree = d3.layout.tree()
             .size([height, width - leftMargin]);
@@ -44,52 +43,10 @@ techtree = {
             .enter().append("g")
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-              .attr(treeConfig.openTooltip, function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; })
- /*         node.append("circle")
-                .attr("id",function(d) { return d.name+"_circle"; })
-                .attr("r", 10)
-                .style("stroke","gray");
-*/
+              .attr(treeConfig.openTooltip, function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; });
 
-			if (treeConfig.showImages){
-		      // add the pattern for each node picture
-		      node.append('svg:pattern')
-		      .attr('id', function(d){return d.name+'_img'})  
-		      .attr('patternUnits', 'userSpaceOnUse')
-		      .attr('width', NODE_SIZE)
-		      .attr('height', NODE_SIZE)
-		      .attr('x',NODE_SIZE/2)
-		      .attr('y',NODE_SIZE/2)
-		      .append('svg:image')
-		        .attr('xlink:href', function(d){return './demo_tree/'+d.name+'.png'})
-		        .attr('x', 0)
-		        .attr('y', 0)
-		        .attr('width', NODE_SIZE)
-		        .attr('height', NODE_SIZE);
+          techtree._drawNodeBoxes(node);
 
-		       // add the node rect using image patterns
-		       node.append("rect")
-		             .attr("id",function(d) { return d.name+"_circle"; })
-		             .attr("rx", NODE_SIZE/4)
-		             .attr("ry", NODE_SIZE/4)
-		             .attr("y", -NODE_SIZE/2)
-		             .attr("x", -NODE_SIZE/2)
-		             .attr("width", NODE_SIZE)
-		             .attr("height", NODE_SIZE)
-		             .style("stroke","gray")
-		             .style("fill", function(d) {return "url(#"+d.name+'_img)' });
-			} else {
-		       node.append("rect")
-		             .attr("id",function(d) { return d.name+"_circle"; })
-		             .attr("rx", NODE_SIZE/4)
-		             .attr("ry", NODE_SIZE/4)
-		             .attr("y", -NODE_SIZE/2)
-		             .attr("x", -NODE_SIZE/2)
-		             .attr("width", NODE_SIZE)
-		             .attr("height", NODE_SIZE)
-		             .style("stroke","gray")
-		             .style("fill", "blue");
-			}
 
           node.append("text")
               .attr("dx", 10) // function(d) { return d.children ? -12 : 12; })
@@ -118,6 +75,51 @@ techtree = {
             return true;
         } else {
             return false;
+        }
+    },
+    
+    _drawNodeBoxes: function(node){
+        var NODE_SIZE = treeConfig.nodeSize;
+        
+        
+        if (treeConfig.showImages){
+          // add the pattern for each node picture
+          node.append('svg:pattern')
+          .attr('id', function(d){return d.name+'_img'})  
+          .attr('patternUnits', 'userSpaceOnUse')
+          .attr('width', NODE_SIZE)
+          .attr('height', NODE_SIZE)
+          .attr('x',NODE_SIZE/2)
+          .attr('y',NODE_SIZE/2)
+          .append('svg:image')
+            .attr('xlink:href', function(d){return './demo_tree/'+d.name+'.png'})
+            .attr('x', 0)
+            .attr('y', 0)
+            .attr('width', NODE_SIZE)
+            .attr('height', NODE_SIZE);
+
+           // add the node rect using image patterns
+           node.append("rect")
+                 .attr("id",function(d) { return d.name+"_circle"; })
+                 .attr("rx", NODE_SIZE/4)
+                 .attr("ry", NODE_SIZE/4)
+                 .attr("y", -NODE_SIZE/2)
+                 .attr("x", -NODE_SIZE/2)
+                 .attr("width", NODE_SIZE)
+                 .attr("height", NODE_SIZE)
+                 .style("stroke","gray")
+                 .style("fill", function(d) {return "url(#"+d.name+'_img)' });
+        } else {
+           node.append("rect")
+                 .attr("id",function(d) { return d.name+"_circle"; })
+                 .attr("rx", NODE_SIZE/4)
+                 .attr("ry", NODE_SIZE/4)
+                 .attr("y", -NODE_SIZE/2)
+                 .attr("x", -NODE_SIZE/2)
+                 .attr("width", NODE_SIZE)
+                 .attr("height", NODE_SIZE)
+                 .style("stroke","gray")
+                 .style("fill", "blue");
         }
     },
 
