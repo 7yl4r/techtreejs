@@ -81,7 +81,6 @@ techtree = {
     _drawNodeBoxes: function(node){
         var NODE_SIZE = treeConfig.nodeSize;
         
-        
         if (treeConfig.showImages){
           // add the pattern for each node picture
           node.append('svg:pattern')
@@ -121,6 +120,19 @@ techtree = {
                  .style("stroke","gray")
                  .style("fill", "blue");
         }
+        
+        if (treeConfig.fogFutureTech == 'aesthetic'){
+           node.append("rect")
+                 .attr("id",function(d) { return d.name+"_fog"; })
+                 .attr("rx", NODE_SIZE/4)
+                 .attr("ry", NODE_SIZE/4)
+                 .attr("y", -NODE_SIZE/2)
+                 .attr("x", -NODE_SIZE/2)
+                 .attr("width", NODE_SIZE)
+                 .attr("height", NODE_SIZE)
+                 .style("stroke","white")
+                 .style("fill", function(d){ return techtree._isEnabled(d.depth,d.name) ? "rgba(0,0,0,0)" : "rgba(200,200,200,0.8)"});
+        }
     },
 
     _completeNode: function(nodename){
@@ -148,6 +160,9 @@ techtree = {
             .duration(DUR)
             .style('stroke','blue');
         children.each(function(d){ d.enabled = 'true'});
+        
+        // remove the fog over children
+        children.each(function(d){ d3.select('#'+d.target.name+'_fog').remove() });
     },
     
     selectNode: function(nodename){

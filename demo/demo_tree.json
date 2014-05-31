@@ -1,6 +1,7 @@
 {
     "name": "observational_astronomy",
     "text": "a division of the astronomical science that is concerned with recording data",
+    "enabled": true,
     "children": [
         {
             "name": "CCD",
