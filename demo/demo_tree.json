@@ -4,7 +4,7 @@
     "children": [
         {
             "name": "CCD",
-            "text": "Charge-Coupled Devices are a major piece of technology in digital imaging. In a CCD image sensor, pixels are represented by p-doped MOS capacitors. These capacitors are biased above the threshold for inversion when image acquisition begins, allowing the conversion of incoming photons into electron charges at the semiconductor-oxide interface; the CCD is then used to read out these charges.",
+            "text": "Charge-Coupled Devices are a major piece of technology in digital imaging. In a CCD sensor, pixels are represented by p-doped MOS capacitors. These capacitors are biased above the threshold for inversion when image acquisition begins, allowing the conversion of incoming photons into electron charges at the semiconductor-oxide interface.",
             "children": [
                 {
                     "name": "radio_telescope_tech_II",
@@ -61,7 +61,7 @@
                     "children": [
                         {
                             "name": "lucky_imaging",
-                            "text": "A high-speed camera with exposure times short enough (100 ms or less) so that the changes in the atmosphere during the exposure are minimal. With lucky imaging, those optimum exposures least affected by the atmosphere (typically around 10 percent) are chosen and combined into a single image by shifting and adding the short exposures, yielding much higher resolution than would be possible with a single, longer exposure which includes all the frames.",
+                            "text": "Utilizing a high-speed camera with exposure times short enough (100 ms or less) that the changes in the atmosphere during the exposure are minimal, lucky imaging chooses optimum exposures least affected by the atmosphere and combines them into a single image, yielding a much higher resolution than is possible with a single long exposure.",
                             "size": 7074,
                             "children": [
                                 {

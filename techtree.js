@@ -162,12 +162,12 @@ techtree = {
     showTooltip: function(name, desc, x, y, depth){
         // shows a tooltip for the given node, unless the node has been dismissed
         if (techtree._dismissedTooltip != name){
-            var W = 400;
-            var H = 200;
+            var W = treeConfig.tooltipW;
+            var H = treeConfig.tooltipH;
             var X = y-W/2;  // yes, x and y are switched here... don't ask me why, they just are.
             var Y = x-H/2;
             var title_H = H/8;
-            var txt_H = H/10;
+            var txt_H = H/treeConfig.tooltipTextLineCount;
             var PAD = 10;  // space between edges and text
             console.log('drawing tooltip for:', name,' @ (',X,',',Y,')');
             

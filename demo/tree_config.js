@@ -5,6 +5,9 @@ treeConfig = {
     treeWidth: 800,
     treeHeight: 1000,
     
+    tooltipH: 200,
+    tooltipW: 400,
+    tooltipTextLineCount: 12,  // approx number of lines of description text in the tooltip
     closeTooltip: 'onmouseout',  // x-button || onmouseout
     openTooltip: 'onclick',  // onclick, onmouseover, or any svg attr
     showNodeNames: false,  // boolean
