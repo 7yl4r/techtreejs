@@ -17,7 +17,7 @@ techtree = {
         var diagonal = d3.svg.diagonal()
             .projection(function(d) { return [d.y, d.x]; });
 
-        techtree.treeSVG = d3.select("body").append("svg")
+        techtree.treeSVG = d3.select("#tech-tree").append("svg")
             .attr("width", width)
             .attr("height", height)
           .append("g")
