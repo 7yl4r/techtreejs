@@ -1,6 +1,7 @@
 
 treeConfig = {
     // svgSrc: '/demo/demo_resources/tree.svg',
+    imgDir: './demo_tree/',
     jsonSrc: '/demo/demo_tree.json',
     treeWidth: 800,
     treeHeight: 1000,

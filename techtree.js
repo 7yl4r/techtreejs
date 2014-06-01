@@ -91,7 +91,7 @@ techtree = {
           .attr('x',NODE_SIZE/2)
           .attr('y',NODE_SIZE/2)
           .append('svg:image')
-            .attr('xlink:href', function(d){return './demo_tree/'+d.name+'.png'})
+            .attr('xlink:href', function(d){return treeConfig.imgDir+d.name+'.png'})
             .attr('x', 0)
             .attr('y', 0)
             .attr('width', NODE_SIZE)
@@ -226,7 +226,7 @@ techtree = {
                 imgW = 100;
             var img = techtree.treeSVG.append('image')
                 .attr('id',name+'_tooltip_img')
-                .attr('xlink:href','./demo_tree/'+name+'.png')
+                .attr('xlink:href', treeConfig.imgDir+name+'.png')
                 .attr('x', X+PAD)
                 .attr('y', Y+title_H+PAD)
                 .attr('width', imgW)
