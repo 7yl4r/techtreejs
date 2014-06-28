@@ -1,6 +1,35 @@
 
 // the main techtree module
 techtree = {
+    // ABSTRACT METHODS (the ones which should be overloaded in a real game)
+    canAfford: function(nodename){
+        // Returns true if user can afford to research the given node, else returns false
+        if (confirm("Click ok if you can afford "+nodename+", cancel if you cannot.\n\nOverload techtree.canAfford(nodename) to connect this to your game.") == true) {
+            return true;
+        } else {
+            return false;
+        }
+        return false;
+
+    },
+
+    researchNode: function(nodename){
+        // Performs research action on given node.
+        alert("Now researching "+nodename+"\n\nOverload techtree.researchNode(nodename) to connect this to your game.");
+        
+        // TODO: show research in progress animation for a little while before completing.
+        techtree.completeResearch(nodename);
+    },
+    
+    // RECIEVER METHODS (the ones which you should call from your methods to change the tree)
+    completeResearch: function(nodename){
+        // Signals to the tree that research is complete for given node.
+        techtree._completeNode(nodename);
+    },
+    
+    
+    
+    // PRIVATE METHODS/ATTR:
     _dismissedTooltip: undefined,
     drawTree: function(){
         // initial draw of the tree
@@ -42,7 +71,7 @@ techtree = {
             .enter().append("g")
               .attr("class", "node")
               .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-              .attr(treeConfig.openTooltip, function(d){ return "techtree.showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; });
+              .attr(treeConfig.openTooltip, function(d){ return "techtree._showTooltip('"+d.name+"','"+d.text+"',"+d.x+","+d.y+","+d.depth+")"; });
 
           techtree._drawNodeBoxes(node);
 
@@ -62,7 +91,7 @@ techtree = {
         techtree.tpl_link_complete = d3.select('body').append('div').attr('class', 'link-complete').style('display', 'none');
 
     },
-    
+ 
     _isEnabled: function(nodeDepth, nodeName){
         // returns true if node is enabled, else false
         var previousResearchesCompleted = true;
@@ -169,24 +198,11 @@ techtree = {
         children.each(function(d){ d3.select('#'+d.target.name+'_fog').remove() });
     },
     
-    canAfford: function(nodename){
-        // Returns true if user can afford to research the given node, else returns false
-        // This method should be overloaded by your game engine to interface with your game state.
-        if (confirm("Click ok if you can afford to research "+nodename+", and cancel if you cannot.\nYou should overload techtree.canAfford(nodename) to connect this function to your game state.") == true) {
-            return true;
-        } else {
-            return false;
-        }
-        return false;
-
-    },
-    
-    selectNode: function(nodename){
-        // this is called when node is selected for research
-        
+    _selectNode: function(nodename){
+        // this is called when node is selected for research 
         if (techtree.canAfford(nodename)){
-            techtree._completeNode(nodename);
-            techtree.unshowTooltip(nodename);
+            techtree.researchNode(nodename);
+            techtree._unshowTooltip(nodename);
         } else {
             console.log("user can't afford "+nodename);
             //"you can't afford this" animation...
@@ -233,7 +249,7 @@ techtree = {
         }
     },
 
-    showTooltip: function(name, desc, x, y, depth){
+    _showTooltip: function(name, desc, x, y, depth){
         // shows a tooltip for the given node, unless the node has been dismissed
         if (techtree._dismissedTooltip != name){
             var W = treeConfig.tooltipW;
@@ -348,9 +364,9 @@ techtree = {
                 .attr('height',H)
                 .attr('fill','rgba(0,0,0,0)')
                 .attr("onmouseout" ,(treeConfig.closeTooltip == 'onmouseout') 
-                                     ? function(d){ return "techtree.unshowTooltip('"+name+"')" }
+                                     ? function(d){ return "techtree._unshowTooltip('"+name+"')" }
                                      : undefined)
-                .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; });
+                .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree._selectNode('"+name+"') : console.log('"+name+"','disabled')"; });
                 
             // BUTTONS (these should be last):
             if (treeConfig.closeTooltip == 'x-button'){ 
@@ -361,13 +377,13 @@ techtree = {
                     .attr('y', Y+PAD+closeButSize)
                     .attr('font-size', closeButSize)
                     .attr('fill', 'rgb(100,10,10)')
-                    .attr('onclick', function(d){ return "techtree.unshowTooltip('"+name+"'); techtree._dismissedTooltip='"+name+"'; return false;"; })
+                    .attr('onclick', function(d){ return "techtree._unshowTooltip('"+name+"'); techtree._dismissedTooltip='"+name+"'; return false;"; })
                     .text('X');
             }
         }
     },
     
-    unshowTooltip: function(nodename){
+    _unshowTooltip: function(nodename){
         // removes the given node's tooltip
         d3.select('#'+nodename+'_tooltip_UI').remove();
         d3.select('#'+nodename+'_tooltip_box').remove();
