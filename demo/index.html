@@ -3,14 +3,19 @@
     <head>
         <meta charset="UTF-8">
         <title>techtree.js | demo tech tree</title>
+        
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" type='text/javascript'></script>
 
-        <!-- techtree dependencies: -->
-        <script src="http://d3js.org/d3.v3.min.js"></script>
-
-        <!-- import tech tree config options -->
-        <script src="/demo/tree_config.js"></script>
-        <!-- import tech tree -->
-        <script src="/techtree.js"></script>
+        <script>
+            $.getScript( "http://d3js.org/d3.v3.min.js", function( data, textStatus, jqxhr ) {
+                $.getScript("/demo/tree_config.js", function(data, textStatus, jqxhr){
+                    $.getScript("/techtree.js", function(data, textStatus, jqxhr){
+                        techtree.drawTree();
+                    });
+                });
+            });
+        </script>
+ 
 
     </head>
     <body>
@@ -91,4 +96,9 @@
         </div>
     
     </body>
+
+        <div id='tech-tree'> tech tree should show here.</div>
+        
+
+    
 </html>
