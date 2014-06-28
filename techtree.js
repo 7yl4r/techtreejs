@@ -187,7 +187,7 @@ techtree = {
         if (techtree.canAfford(nodename)){
             techtree._completeNode(nodename);
             techtree.unshowTooltip(nodename);
-         } else {
+        } else {
             console.log("user can't afford "+nodename);
             //"you can't afford this" animation...
             var TIM = 100
@@ -206,6 +206,30 @@ techtree = {
                 .delay(3*TIM)
                 .style('fill','rgb(150,150,150)')
                 .style('opacity',0.8);
+                
+            /* note: could also do like this, but it's too slow:
+            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+                .style('fill','#DF3A01')
+                .style('opacity',0.8)
+                .each("end",function(){
+                    d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+                        .delay(TIM)
+                        .style('fill','rgb(150,150,150)')
+                        .style('opacity',0.8)
+                        .each("end",function(){
+                            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+                                .delay(2*TIM)
+                                .style('fill','#DF3A01')
+                                .style('opacity',0.8)
+                                .each("end",function(){
+                                    d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+                                        .delay(3*TIM)
+                                        .style('fill','rgb(150,150,150)')
+                                        .style('opacity',0.8);
+                                });
+                        });
+                });
+            */
         }
     },
 
