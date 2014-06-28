@@ -212,11 +212,7 @@ techtree = {
                 .attr('y',Y)
                 .attr('width',W)
                 .attr('height',H)
-                .attr('fill','rgba(150,150,150,0.8)')
-                .attr("onmouseout" ,(treeConfig.closeTooltip == 'onmouseout') 
-                                     ? function(d){ return "techtree.unshowTooltip('"+name+"')" }
-                                     : undefined)
-                .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; });
+                .attr('fill','rgba(150,150,150,0.8)');
                   
             var title = techtree.treeSVG.append('text')
                 .attr('id',name+'_tooltip_title')
@@ -287,6 +283,22 @@ techtree = {
                 .attr('fill', 'rgb(0,50,200)')
                 .text(enabled ? 'click to research' : 'not yet available');
                 
+
+            
+            // draw UI "button" on top of everything in the tooltip (this should be after all text, but before buttons)
+            var UI_rect = techtree.treeSVG.append('rect')
+                .attr('id',name+'_tooltip_UI')
+                .attr('x',X)
+                .attr('y',Y)
+                .attr('width',W)
+                .attr('height',H)
+                .attr('fill','rgba(0,0,0,0)')
+                .attr("onmouseout" ,(treeConfig.closeTooltip == 'onmouseout') 
+                                     ? function(d){ return "techtree.unshowTooltip('"+name+"')" }
+                                     : undefined)
+                .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree.selectNode('"+name+"') : console.log('"+name+"','disabled')"; });
+                
+            // BUTTONS (these should be last):
             if (treeConfig.closeTooltip == 'x-button'){ 
                 var closeButSize = title_H/2;
                 var closeBut = techtree.treeSVG.append('text')
@@ -303,6 +315,7 @@ techtree = {
     
     unshowTooltip: function(nodename){
         // removes the given node's tooltip
+        d3.select('#'+nodename+'_tooltip_UI').remove();
         d3.select('#'+nodename+'_tooltip_box').remove();
         d3.select('#'+nodename+'_tooltip_txt').remove();
         d3.select('#'+nodename+'_tooltip_footTxt').remove();
