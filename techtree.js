@@ -197,6 +197,48 @@ techtree = {
         children.each(function(d){ d3.select('#'+d.target.name+'_fog').remove() });
     },
     
+    _NoNoAnimation: function(selection){
+        var TIM = 100;
+        d3.select(selection).transition(TIM)
+            .style('fill','#DF3A01')
+            .style('opacity',0.8);
+        d3.select(selection).transition(TIM)
+            .delay(TIM)
+            .style('fill','rgb(150,150,150)')
+            .style('opacity',0.8);
+        d3.select(selection).transition(TIM)
+            .delay(2*TIM)
+            .style('fill','#DF3A01')
+            .style('opacity',0.8);
+        d3.select(selection).transition(TIM)
+            .delay(3*TIM)
+            .style('fill','rgb(150,150,150)')
+            .style('opacity',0.8);
+        /* note: could also do like this, but it's too slow:
+        d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+            .style('fill','#DF3A01')
+            .style('opacity',0.8)
+            .each("end",function(){
+                d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+                    .delay(TIM)
+                    .style('fill','rgb(150,150,150)')
+                    .style('opacity',0.8)
+                    .each("end",function(){
+                        d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+                            .delay(2*TIM)
+                            .style('fill','#DF3A01')
+                            .style('opacity',0.8)
+                            .each("end",function(){
+                                d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+                                    .delay(3*TIM)
+                                    .style('fill','rgb(150,150,150)')
+                                    .style('opacity',0.8);
+                            });
+                    });
+            });
+        */
+    },
+    
     _selectNode: function(nodename){
         // this is called when node is selected for research 
         if (techtree.canAfford(nodename)){
@@ -205,46 +247,8 @@ techtree = {
         } else {
             console.log("user can't afford "+nodename);
             //"you can't afford this" animation...
-            var TIM = 100
-            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
-                .style('fill','#DF3A01')
-                .style('opacity',0.8);
-            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
-                .delay(TIM)
-                .style('fill','rgb(150,150,150)')
-                .style('opacity',0.8);
-            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
-                .delay(2*TIM)
-                .style('fill','#DF3A01')
-                .style('opacity',0.8);
-            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
-                .delay(3*TIM)
-                .style('fill','rgb(150,150,150)')
-                .style('opacity',0.8);
-                
-            /* note: could also do like this, but it's too slow:
-            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
-                .style('fill','#DF3A01')
-                .style('opacity',0.8)
-                .each("end",function(){
-                    d3.select('#'+nodename+'_tooltip_box').transition(TIM)
-                        .delay(TIM)
-                        .style('fill','rgb(150,150,150)')
-                        .style('opacity',0.8)
-                        .each("end",function(){
-                            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
-                                .delay(2*TIM)
-                                .style('fill','#DF3A01')
-                                .style('opacity',0.8)
-                                .each("end",function(){
-                                    d3.select('#'+nodename+'_tooltip_box').transition(TIM)
-                                        .delay(3*TIM)
-                                        .style('fill','rgb(150,150,150)')
-                                        .style('opacity',0.8);
-                                });
-                        });
-                });
-            */
+            techtree._NoNoAnimation('#'+nodename+'_tooltip_box');
+
         }
     },
 
@@ -365,7 +369,7 @@ techtree = {
                 .attr("onmouseout" ,(treeConfig.closeTooltip == 'onmouseout') 
                                      ? function(d){ return "techtree._unshowTooltip('"+name+"')" }
                                      : undefined)
-                .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree._selectNode('"+name+"') : console.log('"+name+"','disabled')"; });
+                .attr("onclick"    ,function(d){ return "(techtree._isEnabled("+depth+",'"+name+"') == true) ? techtree._selectNode('"+name+"') : techtree._NoNoAnimation('#"+name+"_tooltip_box') "; });
                 
             // BUTTONS (these should be last):
             if (treeConfig.closeTooltip == 'x-button'){ 
