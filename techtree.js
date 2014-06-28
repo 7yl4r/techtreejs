@@ -34,9 +34,8 @@ techtree = {
             .enter().append("path")
                 .attr("src",function(d) { return d.source.name; })
                 .attr("tgt",function(d) { return d.target.name; })
-                .attr("class", "link")
+                .attr("class", "link-dflt")
                 .attr("d", diagonal);
-
 
           var node = techtree.treeSVG.selectAll("g.node")
               .data(nodes)
@@ -57,6 +56,11 @@ techtree = {
         });
 
         d3.select(self.frameElement).style("height", height + "px");
+        
+        // set up classes for transitions
+        techtree.tpl_link_available = d3.select('body').append('div').attr('class', 'link-available').style('display', 'none');
+        techtree.tpl_link_complete = d3.select('body').append('div').attr('class', 'link-complete').style('display', 'none');
+
     },
     
     _isEnabled: function(nodeDepth, nodeName){
@@ -149,16 +153,16 @@ techtree = {
 		         .style('fill', 'lime')
 		         .style('stroke', 'green')
         }
-        // recolor all edges coming from parents
+        // recolor all edges coming from parents (completed connections)
         d3.selectAll('[tgt='+nodename+']').transition()
             .duration(DUR/3)
-            .style('stroke','green');
+            .style('stroke',techtree.tpl_link_complete.style('stroke'));
             
-        // recolor all edges going to children, set as enabled paths
+        // recolor all edges going to children (set as enabled paths)
         var children = d3.selectAll('[src='+nodename+']')
         children.transition()
             .duration(DUR)
-            .style('stroke','blue');
+            .style('stroke',techtree.tpl_link_available.style('stroke'));
         children.each(function(d){ d.enabled = 'true'});
         
         // remove the fog over children
