@@ -169,14 +169,43 @@ techtree = {
         children.each(function(d){ d3.select('#'+d.target.name+'_fog').remove() });
     },
     
+    canAfford: function(nodename){
+        // Returns true if user can afford to research the given node, else returns false
+        // This method should be overloaded by your game engine to interface with your game state.
+        if (confirm("Click ok if you can afford to research "+nodename+", and cancel if you cannot.\nYou should overload techtree.canAfford(nodename) to connect this function to your game state.") == true) {
+            return true;
+        } else {
+            return false;
+        }
+        return false;
+
+    },
+    
     selectNode: function(nodename){
         // this is called when node is selected for research
-        var canAfford = true;  // TODO: send research request to game, get this info back
         
-        if (canAfford){
+        if (techtree.canAfford(nodename)){
             techtree._completeNode(nodename);
-        } else {
+            techtree.unshowTooltip(nodename);
+         } else {
             console.log("user can't afford "+nodename);
+            //"you can't afford this" animation...
+            var TIM = 100
+            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+                .style('fill','#DF3A01')
+                .style('opacity',0.8);
+            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+                .delay(TIM)
+                .style('fill','rgb(150,150,150)')
+                .style('opacity',0.8);
+            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+                .delay(2*TIM)
+                .style('fill','#DF3A01')
+                .style('opacity',0.8);
+            d3.select('#'+nodename+'_tooltip_box').transition(TIM)
+                .delay(3*TIM)
+                .style('fill','rgb(150,150,150)')
+                .style('opacity',0.8);
         }
     },
 
@@ -212,7 +241,8 @@ techtree = {
                 .attr('y',Y)
                 .attr('width',W)
                 .attr('height',H)
-                .attr('fill','rgba(150,150,150,0.8)');
+                .style('fill','rgb(150,150,150)')
+                .style('opacity',0.8);
                   
             var title = techtree.treeSVG.append('text')
                 .attr('id',name+'_tooltip_title')
