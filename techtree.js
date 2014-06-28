@@ -170,27 +170,26 @@ techtree = {
 
     _completeNode: function(nodename){
         // changes the node to display research completed
-        var DUR = 3000;  //duration of transition in ms 
 
         if (treeConfig.showImages){
 		     d3.select('#'+nodename+'_circle').transition()
-		         .duration(DUR)
+		         .duration(treeConfig.transitionTime)
 		         .style('stroke', 'green')
         } else {
              d3.select('#'+nodename+'_circle').transition()
-		         .duration(DUR)
+		         .duration(treeConfig.transitionTime)
 		         .style('fill', 'lime')
 		         .style('stroke', 'green')
         }
         // recolor all edges coming from parents (completed connections)
         d3.selectAll('[tgt='+nodename+']').transition()
-            .duration(DUR/3)
+            .duration(treeConfig.transitionTime/3)
             .style('stroke',techtree.tpl_link_complete.style('stroke'));
             
         // recolor all edges going to children (set as enabled paths)
         var children = d3.selectAll('[src='+nodename+']')
         children.transition()
-            .duration(DUR)
+            .duration(treeConfig.transitionTime)
             .style('stroke',techtree.tpl_link_available.style('stroke'));
         children.each(function(d){ d.enabled = 'true'});
         
