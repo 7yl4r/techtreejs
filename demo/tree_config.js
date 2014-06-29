@@ -1,10 +1,10 @@
 
 treeConfig = {
     // svgSrc: '/demo/demo_resources/tree.svg',
+    imgDir: './demo_tree/',
     jsonSrc: 'http://7yl4r.github.io/techtreejs/demo/demo_tree.json',
     treeWidth: 650,
     treeHeight: 600,
-    
     
     closeTooltip: 'onmouseout',  // x-button || onmouseout
     openTooltip: 'onclick',  // onclick, onmouseover, or any svg attr
@@ -15,7 +15,8 @@ treeConfig = {
     tooltipH: 200,
     tooltipW: 400,
     tooltipTextLineCount: 12,  // approx number of lines of description text in the tooltip
-    nodeSize: 70  // [px]
+    nodeSize: 70,  // [px]
+    transitionTime: 2000    // ms used for transitions
 
 };
 

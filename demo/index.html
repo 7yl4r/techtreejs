@@ -3,15 +3,22 @@
     <head>
         <meta charset="UTF-8">
         <title>techtree.js | demo tech tree</title>
+        
+        <link href="/demo/tree_style.css" rel="stylesheet" type="text/css" />
 
-        <!-- techtree dependencies: -->
-        <script src="http://d3js.org/d3.v3.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js" type='text/javascript'></script>
 
-        <!-- import tech tree config options -->
-        <script src="http://7yl4r.github.io/techtreejs/demo/tree_config.js"></script>
-        <!-- import tech tree -->
-        <script src="http://7yl4r.github.io/techtreejs/techtree.js"></script>
-
+        <!-- loads tech tree into "tech-tree" div once ready -->
+        <script>
+            $.getScript( "http://d3js.org/d3.v3.min.js", function( data, textStatus, jqxhr ) {
+                $.getScript("http://7yl4r.github.io/techtreejs/demo/tree_config.js", function(data, textStatus, jqxhr){
+                    $.getScript("http://7yl4r.github.io/techtreejs/techtree.js", function(data, textStatus, jqxhr){
+                        techtree.drawTree();
+                    });
+                });
+            });
+        </script>
+ 
     </head>
     <body>
         <div id='configuration explorer'>
@@ -72,6 +79,7 @@
         </div>
         <div id='techTreeDiv'>
             <h3>resulting tech tree: </h3>
+<<<<<<< HEAD
             <style>
                 .node circle {
                   fill: #fff;
@@ -88,7 +96,15 @@
                 }
             </style>
             <script src="http://7yl4r.github.io/techtreejs/demo/demo.js"></script>
+=======
+            <div id='tech-tree'> </div>
+>>>>>>> f7c40a3ef299258d9bccb3a52a87b7e231389213
         </div>
     
     </body>
+
+
+        
+
+    
 </html>
