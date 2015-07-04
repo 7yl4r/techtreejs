@@ -163,9 +163,12 @@ techtree = {
                  .attr("x", -NODE_SIZE/2)
                  .attr("width", NODE_SIZE)
                  .attr("height", NODE_SIZE)
-                 .style("stroke","white")
-                 .style("fill", function(d){ return techtree._isEnabled(d.depth,d.name) ? "rgba(0,0,0,0)" : "rgba(200,200,200,0.8)"});
+                 .style("stroke","white");
+                 //.style("fill", function(d){ return techtree._isEnabled(d.depth,d.name) ? "rgba(0,0,0,0)" : "rgba(200,200,200,0.8)"})
+          node.classed("fogged", function(d){ return !techtree._isEnabled(d.depth,d.name)});
         }
+
+        node.classed("researched", function(d){ return techtree._isEnabled(d.depth, d.name)});
     },
 
     _completeNode: function(nodename){

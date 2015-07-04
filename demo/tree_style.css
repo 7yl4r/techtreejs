@@ -23,3 +23,14 @@
   stroke: green;
   stroke-width: 1.5px;
 }
+
+
+/* node states */
+
+.fogged{
+    fill: rgba(200,200,200,0.8);
+}
+
+.researched{
+    fill: rgba(0,0,0,0);
+}
