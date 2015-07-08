@@ -1,12 +1,4 @@
-.node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
-.node {
-  font: 10px sans-serif;
-}
-/* Links */
+/* Tree Edges */
 .link-dflt {
   fill: none;
   stroke: #ccc;
@@ -22,10 +14,31 @@
   stroke: green;
   stroke-width: 1.5px;
 }
+/* tree nodes */
+.node {
+  font: 10px sans-serif;
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
 /* node states */
 .fogged {
   fill: rgba(200, 200, 200, 0.8);
+  stroke: white;
 }
 .researched {
   fill: rgba(0, 0, 0, 0);
+  stroke: green;
 }
+.unlocked {
+  fill: rgba(0, 0, 0, 0);
+  stroke: blue;
+}
+/* this does not work:
+.node-img{
+  x: -@NODE_W/2px;
+  y: -@NODE_H/2px;
+  rx: -@NODE_W/4px;
+  ry: -@NODE_H/4px;
+}
+*/

@@ -1,6 +1,8 @@
 
 // the main techtree module
 techtree = {
+    _completedNodes: [],
+
     // ABSTRACT METHODS (the ones which should be overloaded in a real game)
     canAfford: function(nodename){
         // Returns true if user can afford to research the given node, else returns false
@@ -110,6 +112,15 @@ techtree = {
             return false;
         }
     },
+
+    _isCompleted: function(nodeDepth, nodeName){
+        //returns true if node has already been researched, else false
+        if (techtree._completedNodes.indexOf(nodeName) > -1){
+            return true;
+        } else {
+            return false;
+        }
+    },
     
     _drawNodeBoxes: function(node){
         var NODE_SIZE = treeConfig.nodeSize;
@@ -128,8 +139,7 @@ techtree = {
             .attr('x', 0)
             .attr('y', 0)
             .attr('width', NODE_SIZE)
-            .attr('height', NODE_SIZE)
-            .classed('node-img');
+            .attr('height', NODE_SIZE);
 
            // add the node rect using image patterns
            node.append("rect")
@@ -140,8 +150,8 @@ techtree = {
                  .attr("x", -NODE_SIZE/2)
                  .attr("width", NODE_SIZE)
                  .attr("height", NODE_SIZE)
-                 .style("stroke","gray")
-                 .style("fill", function(d) {return "url(#"+d.name+'_img)' });
+                 .style("fill", function(d) {return "url(#"+d.name+'_img)' })
+                 .classed('node-img');
         } else {
            node.append("rect")
                  .attr("id",function(d) { return d.name+"_circle"; })
@@ -151,8 +161,6 @@ techtree = {
                  .attr("x", -NODE_SIZE/2)
                  .attr("width", NODE_SIZE)
                  .attr("height", NODE_SIZE)
-                 .style("stroke","gray")
-                 .style("fill", "blue");
         }
         
         if (treeConfig.futureTechFog == 'aesthetic'){
@@ -164,12 +172,12 @@ techtree = {
                  .attr("x", -NODE_SIZE/2)
                  .attr("width", NODE_SIZE)
                  .attr("height", NODE_SIZE)
-                 .style("stroke","white");
-                 //.style("fill", function(d){ return techtree._isEnabled(d.depth,d.name) ? "rgba(0,0,0,0)" : "rgba(200,200,200,0.8)"})
           node.classed("fogged", function(d){ return !techtree._isEnabled(d.depth,d.name)});
         }
 
-        node.classed("researched", function(d){ return techtree._isEnabled(d.depth, d.name)});
+        node.classed("unlocked",  function(d){ return techtree._isEnabled(  d.depth, d.name)});
+        node.classed("completed", function(d){ return techtree._isCompleted(d.depth, d.name)});
+
     },
 
     _completeNode: function(nodename){
@@ -199,6 +207,8 @@ techtree = {
         
         // remove the fog over children
         children.each(function(d){ d3.select('#'+d.target.name+'_fog').remove() });
+
+        techtree._completedNodes.push(nodename)
     },
     
     _NoNoAnimation: function(selection){
