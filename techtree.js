@@ -128,7 +128,8 @@ techtree = {
             .attr('x', 0)
             .attr('y', 0)
             .attr('width', NODE_SIZE)
-            .attr('height', NODE_SIZE);
+            .attr('height', NODE_SIZE)
+            .classed('node-img');
 
            // add the node rect using image patterns
            node.append("rect")
