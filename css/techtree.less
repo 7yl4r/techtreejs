@@ -1,0 +1,55 @@
+/* colors */
+@researched: limegreen;
+@unlocked: steelblue;
+@fogged: firebrick;
+
+@edge-width: 3px;
+/* Tree Edges */
+.link-dflt {
+  fill: none;
+  stroke: @fogged;
+  stroke-width: @edge-width;
+}
+.link-available{
+  fill: none;
+  stroke: @unlocked;
+  stroke-width: @edge-width;
+}
+.link-complete{
+  fill: none;
+  stroke: @researched;
+  stroke-width: @edge-width;
+}
+
+
+/* tree nodes */
+.node {
+  font: 10px sans-serif;
+  fill: #fff;
+  stroke-width: @edge-width;
+}
+
+/* node states */
+.fogged {
+  fill: fade(@fogged, 40%);
+  stroke: @fogged;
+}
+
+.researched {
+  fill: fade(@researched, 10%); /* node fill color (if no images) */
+  stroke: @researched;
+}
+
+.unlocked {
+  fill: transparent; /* tranparent if images */
+  stroke: @unlocked
+}
+
+/* this does not work:
+.node-img{
+  x: -@NODE_W/2px;
+  y: -@NODE_H/2px;
+  rx: -@NODE_W/4px;
+  ry: -@NODE_H/4px;
+}
+*/

@@ -1,0 +1,19 @@
+{
+    "name": "the-oregon-trajectory",
+    "version": "0.1.1",
+    "description": "customizable js game tech tree library.",
+    "bugs": {
+        "url": "https://github.com/7yl4r/techtreejs/issues",
+        "email": "murray.tylar@gmail.com"
+    },
+    "contributors": [
+        "https://github.com/7yl4r/techtreejs/graphs/contributors"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/7yl4r/techtreejs"
+    },
+    "devDependencies": {
+        "less": "~2.5.1"
+    }
+}

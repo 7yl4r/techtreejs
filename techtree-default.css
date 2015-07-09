@@ -1,0 +1,46 @@
+/* colors */
+/* Tree Edges */
+.link-dflt {
+  fill: none;
+  stroke: firebrick;
+  stroke-width: 3px;
+}
+.link-available {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+.link-complete {
+  fill: none;
+  stroke: limegreen;
+  stroke-width: 3px;
+}
+/* tree nodes */
+.node {
+  font: 10px sans-serif;
+  fill: #fff;
+  stroke-width: 3px;
+}
+/* node states */
+.fogged {
+  fill: rgba(178, 34, 34, 0.4);
+  stroke: firebrick;
+}
+.researched {
+  fill: rgba(50, 205, 50, 0.1);
+  /* node fill color (if no images) */
+  stroke: limegreen;
+}
+.unlocked {
+  fill: transparent;
+  /* tranparent if images */
+  stroke: steelblue;
+}
+/* this does not work:
+.node-img{
+  x: -@NODE_W/2px;
+  y: -@NODE_H/2px;
+  rx: -@NODE_W/4px;
+  ry: -@NODE_H/4px;
+}
+*/
